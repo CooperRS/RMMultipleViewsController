@@ -195,16 +195,6 @@
         if(!animated)
             [aViewController viewDidAppear:NO];
         
-        self.toolbarItems = aViewController.toolbarItems;
-        if([aViewController.toolbarItems count] > 0) {
-            [self.navigationController setToolbarHidden:NO animated:animated];
-        } else {
-            [self.navigationController setToolbarHidden:YES animated:animated];
-        }
-        
-        [self.navigationItem setLeftBarButtonItems:aViewController.navigationItem.leftBarButtonItems animated:animated];
-        [self.navigationItem setRightBarButtonItems:aViewController.navigationItem.rightBarButtonItems animated:animated];
-        
         if(animated) {
             if(self.animationStyle == RMMultipleViewsControllerAnimationFlip) {
                 [UIView commitAnimations];
@@ -225,6 +215,16 @@
                 
                 [[self.contentPlaceholderView layer] addAnimation:transition forKey:@"swipe"];
             }
+        }
+        
+        [self.navigationItem setLeftBarButtonItems:aViewController.navigationItem.leftBarButtonItems animated:animated];
+        [self.navigationItem setRightBarButtonItems:aViewController.navigationItem.rightBarButtonItems animated:animated];
+        
+        self.toolbarItems = aViewController.toolbarItems;
+        if([aViewController.toolbarItems count] > 0) {
+            [self.navigationController setToolbarHidden:NO animated:animated];
+        } else {
+            [self.navigationController setToolbarHidden:YES animated:animated];
         }
     }
 }
