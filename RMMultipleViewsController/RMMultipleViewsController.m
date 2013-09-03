@@ -124,7 +124,8 @@
         }
         
         self.segmentedControl = [[UISegmentedControl alloc] initWithItems:items];
-        _segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+        if([[UIDevice currentDevice].systemVersion floatValue] < 7.0)
+            _segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
         
         [_segmentedControl addTarget:self action:@selector(segmentedControlTapped:) forControlEvents:UIControlEventValueChanged];
     }
