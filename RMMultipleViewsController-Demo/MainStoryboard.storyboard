@@ -65,11 +65,11 @@
             <objects>
                 <viewController storyboardIdentifier="FirstView" title="First" id="soA-NO-xuT" customClass="RMDemoFirstViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="I1a-Px-WeD">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="372"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="i32-NP-pGb">
-                                <rect key="frame" x="143" y="197" width="34" height="21"/>
+                                <rect key="frame" x="143" y="175" width="34" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -78,7 +78,13 @@
                         </subviews>
                         <color key="backgroundColor" red="0.20000001789999999" green="0.31764706970000001" blue="0.53725492949999998" alpha="1" colorSpace="deviceRGB"/>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="hM5-QM-Kil"/>
+                        <barButtonItem title="Item" id="cWv-DT-6fs"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="n75-It-iRC"/>
+                    </toolbarItems>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rdc-PX-ewx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

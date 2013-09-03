@@ -155,7 +155,7 @@
                 [UIView beginAnimations:@"FlipAnimation" context:(__bridge void *)(self.currentViewController)];
                 [UIView setAnimationDelegate:self];
                 [UIView setAnimationDidStopSelector:@selector(flipAnimationStopped:finished:context:)];
-                [UIView setAnimationDuration:0.75];
+                [UIView setAnimationDuration:0.5];
                 [UIView setAnimationTransition:transition forView:self.contentPlaceholderView cache:NO];
             }
         }
@@ -191,6 +191,16 @@
         if(!animated)
             [aViewController viewDidAppear:NO];
         
+        self.toolbarItems = aViewController.toolbarItems;
+        if([aViewController.toolbarItems count] > 0) {
+            [self.navigationController setToolbarHidden:NO animated:animated];
+        } else {
+            [self.navigationController setToolbarHidden:YES animated:animated];
+        }
+        
+        [self.navigationItem setLeftBarButtonItems:aViewController.navigationItem.leftBarButtonItems animated:animated];
+        [self.navigationItem setRightBarButtonItems:aViewController.navigationItem.rightBarButtonItems animated:animated];
+        
         if(animated) {
             if(self.animationStyle == RMMultipleViewsControllerAnimationFlip) {
                 [UIView commitAnimations];
@@ -204,7 +214,7 @@
                 else
                     [transition setSubtype:kCATransitionFromLeft];
                 
-                [transition setDuration:15.];
+                [transition setDuration:0.5];
                 [transition setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
                 
                 [self.view addSubview:self.contentPlaceholderView];

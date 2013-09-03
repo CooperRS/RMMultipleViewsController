@@ -18,4 +18,11 @@
 
 @synthesize multipleViewsController = _multipleViewsController;
 
+#pragma mark - Init and Dealloc
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:nil action:nil];
+}
+
 @end
