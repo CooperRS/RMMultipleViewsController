@@ -124,8 +124,11 @@
         }
         
         self.segmentedControl = [[UISegmentedControl alloc] initWithItems:items];
-        if([[UIDevice currentDevice].systemVersion floatValue] < 7.0)
-            _segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        _segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+#pragma clang diagnostic pop
         
         [_segmentedControl addTarget:self action:@selector(segmentedControlTapped:) forControlEvents:UIControlEventValueChanged];
     }
