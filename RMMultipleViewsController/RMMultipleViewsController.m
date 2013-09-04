@@ -221,8 +221,10 @@
             }
         }
         
-        [self.navigationItem setLeftBarButtonItems:aViewController.navigationItem.leftBarButtonItems animated:animated];
-        [self.navigationItem setRightBarButtonItems:aViewController.navigationItem.rightBarButtonItems animated:animated];
+        if(aViewController.navigationItem.leftBarButtonItems)
+            [self.navigationItem setLeftBarButtonItems:aViewController.navigationItem.leftBarButtonItems animated:animated];
+        if(aViewController.navigationItem.rightBarButtonItems)
+            [self.navigationItem setRightBarButtonItems:aViewController.navigationItem.rightBarButtonItems animated:animated];
         
         self.toolbarItems = aViewController.toolbarItems;
         if([aViewController.toolbarItems count] > 0) {
