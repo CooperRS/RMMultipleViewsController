@@ -63,6 +63,8 @@
     [super decodeRestorableStateWithCoder:coder];
     
     self.mutableViewController = [coder decodeObjectForKey:@"viewController"];
+    
+    self.segmentedControl.selectedSegmentIndex = 0;
     [self showViewController:[self.mutableViewController objectAtIndex:[coder decodeIntegerForKey:@"selectedIndex"]] animated:NO];
 }
 
@@ -198,7 +200,7 @@
         aViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         if([aViewController isKindOfClass:[UITableViewController class]] && [[UIDevice currentDevice].systemVersion floatValue] >= 7.0) {
             UITableViewController *aTableViewController = (UITableViewController *)aViewController;
-            aTableViewController.tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height, 0, 0, 0);
+            aTableViewController.tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height, 0, 0, self.navigationController.tabBarController.tabBar.frame.size.height);
         }
         
         self.currentViewController = aViewController;
