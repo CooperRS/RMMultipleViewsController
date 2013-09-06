@@ -51,6 +51,21 @@
     self.navigationItem.titleView = self.segmentedControl;
 }
 
+#pragma mark - Persistency
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+    [coder encodeObject:self.viewController forKey:@"viewController"];
+    [coder encodeInteger:[self.mutableViewController indexOfObject:self.currentViewController] forKey:@"selectedIndex"];
+    
+    [super encodeRestorableStateWithCoder:coder];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
+    [super decodeRestorableStateWithCoder:coder];
+    
+    self.mutableViewController = [coder decodeObjectForKey:@"viewController"];
+    [self showViewController:[self.mutableViewController objectAtIndex:[coder decodeIntegerForKey:@"selectedIndex"]] animated:NO];
+}
+
 #pragma mark - Properties
 - (NSMutableArray *)mutableViewController {
     if(!_mutableViewController) {
