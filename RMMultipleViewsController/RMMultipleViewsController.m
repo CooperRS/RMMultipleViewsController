@@ -200,7 +200,7 @@
         aViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         if([aViewController isKindOfClass:[UITableViewController class]] && [[UIDevice currentDevice].systemVersion floatValue] >= 7.0) {
             UITableViewController *aTableViewController = (UITableViewController *)aViewController;
-            aTableViewController.tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height, 0, 0, self.navigationController.tabBarController.tabBar.frame.size.height);
+            aTableViewController.tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height, 0, self.navigationController.tabBarController.tabBar.frame.size.height, 0);
         }
         
         self.currentViewController = aViewController;
