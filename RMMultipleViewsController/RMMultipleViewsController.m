@@ -63,9 +63,13 @@
     [super decodeRestorableStateWithCoder:coder];
     
     self.mutableViewController = [coder decodeObjectForKey:@"viewController"];
-    
     self.segmentedControl.selectedSegmentIndex = 0;
-    [self showViewController:[self.mutableViewController objectAtIndex:[coder decodeIntegerForKey:@"selectedIndex"]] animated:NO];
+    
+    if([coder decodeIntegerForKey:@"selectedIndex"] != NSNotFound) {
+        [self showViewController:[self.mutableViewController objectAtIndex:[coder decodeIntegerForKey:@"selectedIndex"]] animated:NO];
+    } else {
+        [self showViewController:[self.mutableViewController objectAtIndex:0] animated:NO];
+    }
 }
 
 #pragma mark - Properties
