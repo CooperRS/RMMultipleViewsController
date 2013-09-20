@@ -87,9 +87,9 @@
         
         for(id aViewController in newMutableViewController) {
             if(![aViewController isKindOfClass:[UIViewController class]]) {
-                [NSException raise:@"RMInvalidViewControllerException" format:@"Tried to set invalid objects as view controllers of RMMultipleViewsController. Object at index %i is of Class %@ although it should be of Class UIViewController.", [newMutableViewController indexOfObject:aViewController], NSStringFromClass([aViewController class])];
+                [NSException raise:@"RMInvalidViewControllerException" format:@"Tried to set invalid objects as view controllers of RMMultipleViewsController. Object at index %lu is of Class %@ although it should be of Class UIViewController.", (unsigned long)[newMutableViewController indexOfObject:aViewController], NSStringFromClass([aViewController class])];
             } else if(![aViewController conformsToProtocol:@protocol(RMViewController)]) {
-                [NSException raise:@"RMInvalidViewControllerException" format:@"Tried to set invalid objects as view controllers of RMMultipleViewsController. View controller at index %i does not implement the protocol RMViewController.", [newMutableViewController indexOfObject:aViewController]];
+                [NSException raise:@"RMInvalidViewControllerException" format:@"Tried to set invalid objects as view controllers of RMMultipleViewsController. View controller at index %lu does not implement the protocol RMViewController.", (unsigned long)[newMutableViewController indexOfObject:aViewController]];
             } else {
                 UIViewController<RMViewController> *validViewController = (UIViewController<RMViewController> *)aViewController;
                 validViewController.multipleViewsController = self;
