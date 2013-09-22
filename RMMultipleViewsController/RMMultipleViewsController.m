@@ -158,7 +158,44 @@
 }
 
 #pragma mark - Helper
-- (void)showViewController:(UIViewController<RMViewController> *)aViewController animated:(BOOL)animated {
+- (void)showViewControllerWithoutAnimation:(UIViewController<RMViewController> *)aViewController {
+    if(!aViewController) {
+        [NSException raise:@"RMInvalidCurrentViewController" format:@"-[RMMultipleViewsController %@] has been called with nil as view controller parameter. This is not possible!", NSStringFromSelector(_cmd)];
+    } else if([self.mutableViewController indexOfObject:aViewController] == NSNotFound) {
+        [NSException raise:@"RMInvalidCurrentViewController" format:@"-[RMMultipleViewsController %@] has been called with a view controller as parameter that does not exist in the view controller array. This is not possible!", NSStringFromSelector(_cmd)];
+    }
+    
+    if(aViewController != self.currentViewController) {
+        if(self.currentViewController) {
+            [self.currentViewController viewWillDisappear:NO];
+            [self.currentViewController willMoveToParentViewController:nil];
+            
+            [self.currentViewController removeFromParentViewController];
+            [self.currentViewController.view removeFromSuperview];
+            
+            [self.currentViewController didMoveToParentViewController:nil];
+            [self.currentViewController viewDidDisappear:NO];
+            
+            aViewController.view.frame = self.currentViewController.view.frame;
+        } else {
+            aViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+        }
+        
+        self.currentViewController = aViewController;
+        self.segmentedControl.selectedSegmentIndex = [self.mutableViewController indexOfObject:aViewController];
+        
+        [aViewController viewWillAppear:NO];
+        [aViewController willMoveToParentViewController:self];
+        
+        [self.contentPlaceholderView addSubview:aViewController.view];
+        [self addChildViewController:aViewController];
+        
+        [aViewController didMoveToParentViewController:self];
+        [aViewController viewDidAppear:NO];
+    }
+}
+
+- (void)showViewControllerWithFlipAnimation:(UIViewController<RMViewController> *)aViewController {
     if(!aViewController) {
         [NSException raise:@"RMInvalidCurrentViewController" format:@"-[RMMultipleViewsController %@] has been called with nil as view controller parameter. This is not possible!", NSStringFromSelector(_cmd)];
     } else if([self.mutableViewController indexOfObject:aViewController] == NSNotFound) {
@@ -169,90 +206,137 @@
         NSInteger oldIndex = self.currentViewController ? [self.mutableViewController indexOfObject:self.currentViewController] : NSNotFound;
         NSInteger newIndex = [self.mutableViewController indexOfObject:aViewController];
         
-        if(animated) {
-            if(self.animationStyle == RMMultipleViewsControllerAnimationFlip) {
-                UIViewAnimationTransition transition = UIViewAnimationTransitionFlipFromRight;
-                if(oldIndex < newIndex)
-                    transition = UIViewAnimationTransitionFlipFromRight;
-                else
-                    transition = UIViewAnimationTransitionFlipFromLeft;
-                
-                [UIView beginAnimations:@"FlipAnimation" context:(__bridge void *)(self.currentViewController)];
-                [UIView setAnimationDelegate:self];
-                [UIView setAnimationDidStopSelector:@selector(flipAnimationStopped:finished:context:)];
-                [UIView setAnimationDuration:0.5];
-                [UIView setAnimationTransition:transition forView:self.contentPlaceholderView cache:NO];
-            }
-        }
+        UIViewAnimationTransition transition = UIViewAnimationTransitionFlipFromRight;
+        if(oldIndex < newIndex)
+            transition = UIViewAnimationTransitionFlipFromRight;
+        else
+            transition = UIViewAnimationTransitionFlipFromLeft;
+        
+        [UIView beginAnimations:@"FlipAnimation" context:(__bridge void *)(self.currentViewController)];
+        [UIView setAnimationDelegate:self];
+        [UIView setAnimationDidStopSelector:@selector(flipAnimationStopped:finished:context:)];
+        [UIView setAnimationDuration:0.5];
+        [UIView setAnimationTransition:transition forView:self.contentPlaceholderView cache:NO];
         
         if(self.currentViewController) {
-            [self.currentViewController viewWillDisappear:animated];
+            [self.currentViewController viewWillDisappear:YES];
             [self.currentViewController willMoveToParentViewController:nil];
             
             [self.currentViewController removeFromParentViewController];
             [self.currentViewController.view removeFromSuperview];
             
             [self.currentViewController didMoveToParentViewController:nil];
-            if(!animated)
-                [self.currentViewController viewDidDisappear:NO];
             
             aViewController.view.frame = self.currentViewController.view.frame;
         } else {
             aViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
         }
         
-        aViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-        if([aViewController isKindOfClass:[UITableViewController class]] && [[UIDevice currentDevice].systemVersion floatValue] >= 7.0) {
-            UITableViewController *aTableViewController = (UITableViewController *)aViewController;
-            aTableViewController.tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height, 0, self.navigationController.tabBarController.tabBar.frame.size.height, 0);
-        }
-        
         self.currentViewController = aViewController;
         self.segmentedControl.selectedSegmentIndex = [self.mutableViewController indexOfObject:aViewController];
         
-        [aViewController viewWillAppear:animated];
+        [aViewController viewWillAppear:YES];
         [aViewController willMoveToParentViewController:self];
         
         [self.contentPlaceholderView addSubview:aViewController.view];
         [self addChildViewController:aViewController];
         
         [aViewController didMoveToParentViewController:self];
-        if(!animated)
-            [aViewController viewDidAppear:NO];
         
-        if(animated) {
-            if(self.animationStyle == RMMultipleViewsControllerAnimationFlip) {
-                [UIView commitAnimations];
-            } else if(self.animationStyle == RMMultipleViewsControllerAnimationSlideIn) {
-                CATransition *transition = [CATransition animation];
-                [transition setDelegate:self];
-                [transition setType:kCATransitionPush];
-                
-                if(oldIndex < newIndex)
-                    [transition setSubtype:kCATransitionFromRight];
-                else
-                    [transition setSubtype:kCATransitionFromLeft];
-                
-                [transition setDuration:0.5];
-                [transition setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-                
-                [self.view addSubview:self.contentPlaceholderView];
-                
-                [[self.contentPlaceholderView layer] addAnimation:transition forKey:@"swipe"];
-            }
-        }
+        [UIView commitAnimations];
+    }
+}
+
+- (void)showViewControllerWithSlideInAnimation:(UIViewController<RMViewController> *)aViewController {
+    if(!aViewController) {
+        [NSException raise:@"RMInvalidCurrentViewController" format:@"-[RMMultipleViewsController %@] has been called with nil as view controller parameter. This is not possible!", NSStringFromSelector(_cmd)];
+    } else if([self.mutableViewController indexOfObject:aViewController] == NSNotFound) {
+        [NSException raise:@"RMInvalidCurrentViewController" format:@"-[RMMultipleViewsController %@] has been called with a view controller as parameter that does not exist in the view controller array. This is not possible!", NSStringFromSelector(_cmd)];
+    }
+    
+    if(aViewController != self.currentViewController) {
+        NSInteger oldIndex = self.currentViewController ? [self.mutableViewController indexOfObject:self.currentViewController] : NSNotFound;
+        NSInteger newIndex = [self.mutableViewController indexOfObject:aViewController];
+        BOOL slideFromLeft = oldIndex >= newIndex;
         
-        if(aViewController.navigationItem.leftBarButtonItems)
-            [self.navigationItem setLeftBarButtonItems:aViewController.navigationItem.leftBarButtonItems animated:animated];
-        if(aViewController.navigationItem.rightBarButtonItems)
-            [self.navigationItem setRightBarButtonItems:aViewController.navigationItem.rightBarButtonItems animated:animated];
-        
-        self.toolbarItems = aViewController.toolbarItems;
-        if([aViewController.toolbarItems count] > 0) {
-            [self.navigationController setToolbarHidden:NO animated:animated];
+        if(self.currentViewController) {
+            [self.currentViewController viewWillDisappear:YES];
+            [self.currentViewController willMoveToParentViewController:nil];
+            
+            CGFloat x = 0;
+            if(slideFromLeft)
+                x = -self.currentViewController.view.frame.size.width;
+            else
+                x = self.view.frame.size.width;
+            
+            aViewController.view.frame = CGRectMake(x, 0, self.currentViewController.view.frame.size.width, self.currentViewController.view.frame.size.height);
         } else {
-            [self.navigationController setToolbarHidden:YES animated:animated];
+            CGFloat x = 0;
+            if(slideFromLeft)
+                x = -self.view.frame.size.width;
+            else
+                x = self.view.frame.size.width;
+            
+            aViewController.view.frame = CGRectMake(-self.view.frame.size.width, 0, self.view.frame.size.width, self.view.frame.size.height);
         }
+        
+        [aViewController viewWillAppear:YES];
+        [aViewController willMoveToParentViewController:self];
+        
+        [self.contentPlaceholderView addSubview:aViewController.view];
+        [self addChildViewController:aViewController];
+        
+        [aViewController didMoveToParentViewController:self];
+        
+        CGFloat oldX = 0;
+        if(slideFromLeft) {
+            oldX = self.view.frame.size.width;
+        } else {
+            oldX = -self.currentViewController.view.frame.size.width;
+        }
+        
+        [UIView beginAnimations:@"SlideAnimation" context:(__bridge void *)(self.currentViewController)];
+        [UIView setAnimationDelegate:self];
+        [UIView setAnimationDidStopSelector:@selector(slideInAnimationStopped:finished:context:)];
+        [UIView setAnimationDuration:0.3];
+        
+        self.currentViewController.view.frame = CGRectMake(oldX, 0, self.currentViewController.view.frame.size.width, self.currentViewController.view.frame.size.height);
+        aViewController.view.frame = CGRectMake(0, 0, aViewController.view.frame.size.width, aViewController.view.frame.size.height);
+        
+        [UIView commitAnimations];
+        
+        self.currentViewController = aViewController;
+        self.segmentedControl.selectedSegmentIndex = [self.mutableViewController indexOfObject:aViewController];
+    }
+}
+
+- (void)showViewController:(UIViewController<RMViewController> *)aViewController animated:(BOOL)animated {
+    aViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    if([aViewController isKindOfClass:[UITableViewController class]] && [[UIDevice currentDevice].systemVersion floatValue] >= 7.0) {
+        UITableViewController *aTableViewController = (UITableViewController *)aViewController;
+        aTableViewController.tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height, 0, self.navigationController.tabBarController.tabBar.frame.size.height, 0);
+    }
+    
+    if(!animated || self.animationStyle == RMMultipleViewsControllerAnimationNone) {
+        [self showViewControllerWithoutAnimation:aViewController];
+    } else if(self.animationStyle == RMMultipleViewsControllerAnimationFlip) {
+        [self showViewControllerWithFlipAnimation:aViewController];
+    } else if(self.animationStyle == RMMultipleViewsControllerAnimationSlideIn) {
+        [self showViewControllerWithSlideInAnimation:aViewController];
+    } else {
+        [self showViewControllerWithoutAnimation:aViewController];
+    }
+    
+    if(aViewController.navigationItem.leftBarButtonItems)
+        [self.navigationItem setLeftBarButtonItems:aViewController.navigationItem.leftBarButtonItems animated:YES];
+    if(aViewController.navigationItem.rightBarButtonItems)
+        [self.navigationItem setRightBarButtonItems:aViewController.navigationItem.rightBarButtonItems animated:YES];
+    
+    self.toolbarItems = aViewController.toolbarItems;
+    if([aViewController.toolbarItems count] > 0) {
+        [self.navigationController setToolbarHidden:NO animated:YES];
+    } else {
+        [self.navigationController setToolbarHidden:YES animated:YES];
     }
 }
 
@@ -271,12 +355,15 @@
     [self.currentViewController viewDidAppear:YES];
 }
 
-- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
-    if(flag) {
-        if(anim == [[self.contentPlaceholderView layer] animationForKey:@"swipe"]) {
-            
-        }
-    }
+- (void)slideInAnimationStopped:(NSString *)animationID finished:(BOOL)finished context:(void *)context {
+    UIViewController<RMViewController> *oldViewController = (__bridge UIViewController<RMViewController> *)context;
+    [oldViewController removeFromParentViewController];
+    [oldViewController.view removeFromSuperview];
+    
+    [oldViewController didMoveToParentViewController:nil];
+    [oldViewController viewDidDisappear:YES];
+    
+    [self.currentViewController viewDidAppear:YES];
 }
 
 @end

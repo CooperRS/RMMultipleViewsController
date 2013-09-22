@@ -18,7 +18,8 @@
 
 typedef enum {
     RMMultipleViewsControllerAnimationSlideIn,
-    RMMultipleViewsControllerAnimationFlip
+    RMMultipleViewsControllerAnimationFlip,
+    RMMultipleViewsControllerAnimationNone
 } RMMultipleViewsControllerAnimation;
 
 @interface RMMultipleViewsController : UIViewController
