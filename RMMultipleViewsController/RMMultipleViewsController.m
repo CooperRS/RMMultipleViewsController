@@ -8,6 +8,8 @@
 
 #import "RMMultipleViewsController.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 @interface RMMultipleViewsController ()
 
 @property (nonatomic, strong) NSMutableArray *mutableViewController;
@@ -206,34 +208,20 @@
         NSInteger oldIndex = self.currentViewController ? [self.mutableViewController indexOfObject:self.currentViewController] : NSNotFound;
         NSInteger newIndex = [self.mutableViewController indexOfObject:aViewController];
         
-        UIViewAnimationTransition transition = UIViewAnimationTransitionFlipFromRight;
+        UIViewAnimationOptions transition = UIViewAnimationOptionTransitionFlipFromRight;
         if(oldIndex < newIndex)
-            transition = UIViewAnimationTransitionFlipFromRight;
+            transition = UIViewAnimationOptionTransitionFlipFromRight;
         else
-            transition = UIViewAnimationTransitionFlipFromLeft;
-        
-        [UIView beginAnimations:@"FlipAnimation" context:(__bridge void *)(self.currentViewController)];
-        [UIView setAnimationDelegate:self];
-        [UIView setAnimationDidStopSelector:@selector(flipAnimationStopped:finished:context:)];
-        [UIView setAnimationDuration:0.5];
-        [UIView setAnimationTransition:transition forView:self.contentPlaceholderView cache:NO];
+            transition = UIViewAnimationOptionTransitionFlipFromLeft;
         
         if(self.currentViewController) {
+            aViewController.view.frame = self.currentViewController.view.frame;
+            
             [self.currentViewController viewWillDisappear:YES];
             [self.currentViewController willMoveToParentViewController:nil];
-            
-            [self.currentViewController removeFromParentViewController];
-            [self.currentViewController.view removeFromSuperview];
-            
-            [self.currentViewController didMoveToParentViewController:nil];
-            
-            aViewController.view.frame = self.currentViewController.view.frame;
         } else {
             aViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
         }
-        
-        self.currentViewController = aViewController;
-        self.segmentedControl.selectedSegmentIndex = [self.mutableViewController indexOfObject:aViewController];
         
         [aViewController viewWillAppear:YES];
         [aViewController willMoveToParentViewController:self];
@@ -241,9 +229,21 @@
         [self.contentPlaceholderView addSubview:aViewController.view];
         [self addChildViewController:aViewController];
         
-        [aViewController didMoveToParentViewController:self];
+        UIViewController *oldViewController = self.currentViewController;
+        [UIView transitionFromView:self.currentViewController.view toView:aViewController.view duration:0.5 options:transition | UIViewAnimationOptionBeginFromCurrentState completion:^(BOOL finished) {
+            [oldViewController removeFromParentViewController];
+            if(finished)
+                [oldViewController.view removeFromSuperview];
+            
+            [oldViewController viewDidDisappear:YES];
+            [oldViewController didMoveToParentViewController:nil];
+            
+            [self.currentViewController viewDidAppear:YES];
+            [self.currentViewController didMoveToParentViewController:self];
+        }];
         
-        [UIView commitAnimations];
+        self.currentViewController = aViewController;
+        self.segmentedControl.selectedSegmentIndex = [self.mutableViewController indexOfObject:aViewController];
     }
 }
 
@@ -295,15 +295,21 @@
             oldX = -self.currentViewController.view.frame.size.width;
         }
         
-        [UIView beginAnimations:@"SlideAnimation" context:(__bridge void *)(self.currentViewController)];
-        [UIView setAnimationDelegate:self];
-        [UIView setAnimationDidStopSelector:@selector(slideInAnimationStopped:finished:context:)];
-        [UIView setAnimationDuration:0.3];
-        
-        self.currentViewController.view.frame = CGRectMake(oldX, 0, self.currentViewController.view.frame.size.width, self.currentViewController.view.frame.size.height);
-        aViewController.view.frame = CGRectMake(0, 0, aViewController.view.frame.size.width, aViewController.view.frame.size.height);
-        
-        [UIView commitAnimations];
+        __block UIViewController *oldViewController = self.currentViewController;
+        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+            self.currentViewController.view.frame = CGRectMake(oldX, 0, self.currentViewController.view.frame.size.width, self.currentViewController.view.frame.size.height);
+            aViewController.view.frame = CGRectMake(0, 0, aViewController.view.frame.size.width, aViewController.view.frame.size.height);
+        } completion:^(BOOL finished) {
+            [oldViewController removeFromParentViewController];
+            if(finished) {
+                [oldViewController.view removeFromSuperview];
+            }
+            
+            [oldViewController didMoveToParentViewController:nil];
+            [oldViewController viewDidDisappear:YES];
+            
+            [self.currentViewController viewDidAppear:YES];
+        }];
         
         self.currentViewController = aViewController;
         self.segmentedControl.selectedSegmentIndex = [self.mutableViewController indexOfObject:aViewController];
@@ -345,25 +351,6 @@
     if(aSegmentedControl == self.segmentedControl) {
         [self showViewController:[self.mutableViewController objectAtIndex:aSegmentedControl.selectedSegmentIndex] animated:YES];
     }
-}
-
-#pragma mark - Animations
-- (void)flipAnimationStopped:(NSString *)animationID finished:(BOOL)finished context:(void *)context {
-    UIViewController<RMViewController> *oldViewController = (__bridge UIViewController<RMViewController> *)context;
-    [oldViewController viewDidDisappear:YES];
-    
-    [self.currentViewController viewDidAppear:YES];
-}
-
-- (void)slideInAnimationStopped:(NSString *)animationID finished:(BOOL)finished context:(void *)context {
-    UIViewController<RMViewController> *oldViewController = (__bridge UIViewController<RMViewController> *)context;
-    [oldViewController removeFromParentViewController];
-    [oldViewController.view removeFromSuperview];
-    
-    [oldViewController didMoveToParentViewController:nil];
-    [oldViewController viewDidDisappear:YES];
-    
-    [self.currentViewController viewDidAppear:YES];
 }
 
 @end
