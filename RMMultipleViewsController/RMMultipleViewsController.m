@@ -111,6 +111,9 @@
                 [_segmentedControl insertSegmentWithTitle:aTitle atIndex:0 animated:NO];
             }
         }
+        
+        if(_segmentedControl.frame.size.width < 120)
+            _segmentedControl.frame = CGRectMake(_segmentedControl.frame.origin.x, _segmentedControl.frame.origin.y, 120, _segmentedControl.frame.size.height);
     }
 }
 
@@ -154,6 +157,9 @@
 #pragma clang diagnostic pop
         
         [_segmentedControl addTarget:self action:@selector(segmentedControlTapped:) forControlEvents:UIControlEventValueChanged];
+        
+        if(_segmentedControl.frame.size.width < 130)
+            _segmentedControl.frame = CGRectMake(_segmentedControl.frame.origin.x, _segmentedControl.frame.origin.y, 130, _segmentedControl.frame.size.height);
     }
     
     return _segmentedControl;
