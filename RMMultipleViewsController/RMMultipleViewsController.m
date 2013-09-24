@@ -167,20 +167,16 @@
 
 #pragma mark - Helper
 - (void)showViewControllerWithoutAnimation:(UIViewController<RMViewController> *)aViewController {
-    if(self.currentViewController) {
-        [self.currentViewController viewWillDisappear:NO];
-        [self.currentViewController willMoveToParentViewController:nil];
-        
-        [self.currentViewController removeFromParentViewController];
-        [self.currentViewController.view removeFromSuperview];
-        
-        [self.currentViewController didMoveToParentViewController:nil];
-        [self.currentViewController viewDidDisappear:NO];
-        
-        aViewController.view.frame = self.currentViewController.view.frame;
-    } else {
-        aViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    }
+    [self.currentViewController viewWillDisappear:NO];
+    [self.currentViewController willMoveToParentViewController:nil];
+    
+    [self.currentViewController removeFromParentViewController];
+    [self.currentViewController.view removeFromSuperview];
+    
+    [self.currentViewController didMoveToParentViewController:nil];
+    [self.currentViewController viewDidDisappear:NO];
+    
+    aViewController.view.frame = self.currentViewController.view.frame;
     
     [aViewController viewWillAppear:NO];
     [aViewController willMoveToParentViewController:self];
@@ -202,14 +198,10 @@
     else
         transition = UIViewAnimationOptionTransitionFlipFromLeft;
     
-    if(self.currentViewController) {
-        aViewController.view.frame = self.currentViewController.view.frame;
-        
-        [self.currentViewController viewWillDisappear:YES];
-        [self.currentViewController willMoveToParentViewController:nil];
-    } else {
-        aViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    }
+    aViewController.view.frame = self.currentViewController.view.frame;
+    
+    [self.currentViewController viewWillDisappear:YES];
+    [self.currentViewController willMoveToParentViewController:nil];
     
     [aViewController viewWillAppear:YES];
     [aViewController willMoveToParentViewController:self];
@@ -236,26 +228,16 @@
     NSInteger newIndex = [self.mutableViewController indexOfObject:aViewController];
     BOOL slideFromLeft = oldIndex >= newIndex;
     
-    if(self.currentViewController) {
-        [self.currentViewController viewWillDisappear:YES];
-        [self.currentViewController willMoveToParentViewController:nil];
-        
-        CGFloat x = 0;
-        if(slideFromLeft)
-            x = -self.currentViewController.view.frame.size.width;
-        else
-            x = self.view.frame.size.width;
-        
-        aViewController.view.frame = CGRectMake(x, 0, self.currentViewController.view.frame.size.width, self.currentViewController.view.frame.size.height);
-    } else {
-        CGFloat x = 0;
-        if(slideFromLeft)
-            x = -self.view.frame.size.width;
-        else
-            x = self.view.frame.size.width;
-        
-        aViewController.view.frame = CGRectMake(-self.view.frame.size.width, 0, self.view.frame.size.width, self.view.frame.size.height);
-    }
+    [self.currentViewController viewWillDisappear:YES];
+    [self.currentViewController willMoveToParentViewController:nil];
+    
+    CGFloat x = 0;
+    if(slideFromLeft)
+        x = -self.currentViewController.view.frame.size.width;
+    else
+        x = self.view.frame.size.width;
+    
+    aViewController.view.frame = CGRectMake(x, 0, self.currentViewController.view.frame.size.width, self.currentViewController.view.frame.size.height);
     
     [aViewController viewWillAppear:YES];
     [aViewController willMoveToParentViewController:self];
