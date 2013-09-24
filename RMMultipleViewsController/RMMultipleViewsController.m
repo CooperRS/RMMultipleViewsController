@@ -167,16 +167,20 @@
 
 #pragma mark - Helper
 - (void)showViewControllerWithoutAnimation:(UIViewController<RMViewController> *)aViewController {
-    [self.currentViewController viewWillDisappear:NO];
-    [self.currentViewController willMoveToParentViewController:nil];
-    
-    [self.currentViewController removeFromParentViewController];
-    [self.currentViewController.view removeFromSuperview];
-    
-    [self.currentViewController didMoveToParentViewController:nil];
-    [self.currentViewController viewDidDisappear:NO];
-    
-    aViewController.view.frame = self.currentViewController.view.frame;
+    if(self.currentViewController) {
+        [self.currentViewController viewWillDisappear:NO];
+        [self.currentViewController willMoveToParentViewController:nil];
+        
+        [self.currentViewController removeFromParentViewController];
+        [self.currentViewController.view removeFromSuperview];
+        
+        [self.currentViewController didMoveToParentViewController:nil];
+        [self.currentViewController viewDidDisappear:NO];
+        
+        aViewController.view.frame = self.currentViewController.view.frame;
+    } else {
+        aViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    }
     
     [aViewController viewWillAppear:NO];
     [aViewController willMoveToParentViewController:self];
