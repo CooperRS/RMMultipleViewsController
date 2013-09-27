@@ -53,6 +53,18 @@
     self.navigationItem.titleView = self.segmentedControl;
 }
 
+#pragma mark - Orientation
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    for(UIViewController *aViewController in self.viewController) {
+        if([aViewController isKindOfClass:[UITableViewController class]] && [[UIDevice currentDevice].systemVersion floatValue] >= 7.0) {
+            UITableViewController *aTableViewController = (UITableViewController *)aViewController;
+            aTableViewController.tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height+20, 0, self.navigationController.tabBarController.tabBar.frame.size.height, 0);
+        }
+    }
+}
+
 #pragma mark - Persistency
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
     [coder encodeObject:self.viewController forKey:@"viewController"];
@@ -286,7 +298,7 @@
         aViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         if([aViewController isKindOfClass:[UITableViewController class]] && [[UIDevice currentDevice].systemVersion floatValue] >= 7.0) {
             UITableViewController *aTableViewController = (UITableViewController *)aViewController;
-            aTableViewController.tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height, 0, self.navigationController.tabBarController.tabBar.frame.size.height, 0);
+            aTableViewController.tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height+20, 0, self.navigationController.tabBarController.tabBar.frame.size.height, 0);
         }
         
         if(!animated || self.animationStyle == RMMultipleViewsControllerAnimationNone) {
