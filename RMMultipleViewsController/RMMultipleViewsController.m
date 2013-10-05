@@ -124,8 +124,8 @@
             }
         }
         
-        if(_segmentedControl.frame.size.width < 120)
-            _segmentedControl.frame = CGRectMake(_segmentedControl.frame.origin.x, _segmentedControl.frame.origin.y, 120, _segmentedControl.frame.size.height);
+        if(_segmentedControl.frame.size.width < 130)
+            _segmentedControl.frame = CGRectMake(_segmentedControl.frame.origin.x, _segmentedControl.frame.origin.y, 130, _segmentedControl.frame.size.height);
     }
 }
 
@@ -314,16 +314,14 @@
         self.currentViewController = aViewController;
         self.segmentedControl.selectedSegmentIndex = [self.mutableViewController indexOfObject:aViewController];
         
-        if(aViewController.navigationItem.leftBarButtonItems)
-            [self.navigationItem setLeftBarButtonItems:aViewController.navigationItem.leftBarButtonItems animated:YES];
-        if(aViewController.navigationItem.rightBarButtonItems)
-            [self.navigationItem setRightBarButtonItems:aViewController.navigationItem.rightBarButtonItems animated:YES];
+        [self.navigationItem setLeftBarButtonItems:aViewController.navigationItem.leftBarButtonItems animated:animated];
+        [self.navigationItem setRightBarButtonItems:aViewController.navigationItem.rightBarButtonItems animated:animated];
         
         self.toolbarItems = aViewController.toolbarItems;
         if([aViewController.toolbarItems count] > 0) {
-            [self.navigationController setToolbarHidden:NO animated:YES];
+            [self.navigationController setToolbarHidden:NO animated:animated];
         } else {
-            [self.navigationController setToolbarHidden:YES animated:YES];
+            [self.navigationController setToolbarHidden:YES animated:animated];
         }
     }
 }
