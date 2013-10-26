@@ -14,6 +14,9 @@
 
 @property (nonatomic, weak) RMMultipleViewsController *multipleViewsController;
 
+@optional
+- (void)adaptToEdgeInsets:(UIEdgeInsets)newInsets;
+
 @end
 
 typedef enum {
