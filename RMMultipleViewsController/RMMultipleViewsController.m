@@ -242,11 +242,15 @@
             blockself.currentViewController = aViewController;
             blockself.segmentedControl.selectedSegmentIndex = [blockself.mutableViewController indexOfObject:aViewController];
             
-            [blockself.navigationItem setLeftBarButtonItems:aViewController.navigationItem.leftBarButtonItems animated:animated];
-            [blockself.navigationItem setRightBarButtonItems:aViewController.navigationItem.rightBarButtonItems animated:animated];
+            if(blockself.useNavigationBarButtonItemsOfCurrentViewController) {
+                [blockself.navigationItem setLeftBarButtonItems:aViewController.navigationItem.leftBarButtonItems animated:animated];
+                [blockself.navigationItem setRightBarButtonItems:aViewController.navigationItem.rightBarButtonItems animated:animated];
+            }
             
-            blockself.toolbarItems = aViewController.toolbarItems;
-            if([aViewController.toolbarItems count] > 0) {
+            if(blockself.useToolbarItemsOfCurrentViewController)
+                [blockself setToolbarItems:aViewController.toolbarItems animated:YES];
+            
+            if([blockself.toolbarItems count] > 0) {
                 [blockself.navigationController setToolbarHidden:NO animated:animated];
             } else {
                 [blockself.navigationController setToolbarHidden:YES animated:animated];

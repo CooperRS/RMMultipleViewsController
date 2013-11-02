@@ -30,6 +30,9 @@ typedef enum {
 @property (nonatomic, strong) NSArray *viewController;
 @property (nonatomic, assign) RMMultipleViewsControllerAnimation animationStyle;
 
+@property (nonatomic, assign) BOOL useNavigationBarButtonItemsOfCurrentViewController;
+@property (nonatomic, assign) BOOL useToolbarItemsOfCurrentViewController;
+
 - (instancetype)initWithViewControllers:(NSArray *)someViewControllers;
 
 - (void)showViewController:(UIViewController<RMViewController> *)aViewController animated:(BOOL)animated;
