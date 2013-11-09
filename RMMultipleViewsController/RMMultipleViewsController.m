@@ -183,6 +183,7 @@
         x = self.view.frame.size.width;
     
     aViewController.view.frame = CGRectMake(x, 0, self.currentViewController.view.frame.size.width, self.currentViewController.view.frame.size.height);
+    NSLog(@"Starting from rect: %@", NSStringFromCGRect(aViewController.view.frame));
     
     [aViewController viewWillAppear:YES];
     [aViewController willMoveToParentViewController:self];
@@ -229,6 +230,9 @@
         
         __weak RMMultipleViewsController *blockself = self;
         void(^switchViewController)(void) = ^() {
+            NSLog(@"Animated: %@", animated ? @"YES" : @"NO");
+            NSLog(@"Style: %i", blockself.animationStyle);
+            
             if(!animated || blockself.animationStyle == RMMultipleViewsControllerAnimationNone) {
                 [blockself showViewControllerWithoutAnimation:aViewController];
             } else if(blockself.animationStyle == RMMultipleViewsControllerAnimationFlip) {
@@ -257,13 +261,14 @@
             }
         };
         
-        if(self.currentViewController) {
+        if(self.currentViewController && [aViewController isViewLoaded] && animated) {
             [UIView animateWithDuration:0 animations:^{
                 aViewController.view.frame = CGRectMake(0, 0, blockself.view.frame.size.width, blockself.view.frame.size.height);
             } completion:^(BOOL finished) {
                 switchViewController();
             }];
         } else {
+            aViewController.view.frame = CGRectMake(0, 0, blockself.view.frame.size.width, blockself.view.frame.size.height);
             switchViewController();
         }
     }
