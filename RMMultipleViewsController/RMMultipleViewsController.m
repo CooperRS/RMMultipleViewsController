@@ -230,9 +230,6 @@
         
         __weak RMMultipleViewsController *blockself = self;
         void(^switchViewController)(void) = ^() {
-            NSLog(@"Animated: %@", animated ? @"YES" : @"NO");
-            NSLog(@"Style: %i", blockself.animationStyle);
-            
             if(!animated || blockself.animationStyle == RMMultipleViewsControllerAnimationNone) {
                 [blockself showViewControllerWithoutAnimation:aViewController];
             } else if(blockself.animationStyle == RMMultipleViewsControllerAnimationFlip) {
