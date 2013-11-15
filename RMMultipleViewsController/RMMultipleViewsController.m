@@ -183,7 +183,6 @@
         x = self.view.frame.size.width;
     
     aViewController.view.frame = CGRectMake(x, 0, self.currentViewController.view.frame.size.width, self.currentViewController.view.frame.size.height);
-    NSLog(@"Starting from rect: %@", NSStringFromCGRect(aViewController.view.frame));
     
     [aViewController viewWillAppear:YES];
     [aViewController willMoveToParentViewController:self];
