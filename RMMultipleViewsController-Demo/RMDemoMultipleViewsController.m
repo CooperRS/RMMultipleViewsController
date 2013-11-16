@@ -35,6 +35,9 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
+    self.useNavigationBarButtonItemsOfCurrentViewController = YES;
+    self.useToolbarItemsOfCurrentViewController = YES;
+    
     NSMutableArray *initialViewController = [NSMutableArray array];
     [initialViewController addObject:[self.storyboard instantiateViewControllerWithIdentifier:@"FirstView"]];
     [initialViewController addObject:[self.storyboard instantiateViewControllerWithIdentifier:@"SecondView"]];

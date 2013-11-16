@@ -51,9 +51,9 @@
  *  This is an enumeration of the supported animation types.
  */
 typedef enum {
-    RMMultipleViewsControllerAnimationNone,
     RMMultipleViewsControllerAnimationSlideIn,
-    RMMultipleViewsControllerAnimationFlip
+    RMMultipleViewsControllerAnimationFlip,
+    RMMultipleViewsControllerAnimationNone
 } RMMultipleViewsControllerAnimation;
 
 /**
