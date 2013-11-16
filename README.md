@@ -33,7 +33,20 @@ This is an iOS control for showing multiple view controller in one view controll
 	@end
 	```
 	
-2. TODO...
+2. Implement `- (void)awakeFromNib`
+	```objc
+	- (void)awakeFromNib {
+    	[super awakeFromNib];
+    	
+    	NSMutableArray *initialViewController = [NSMutableArray array];
+    	[initialViewController addObject:[self.storyboard instantiateViewControllerWithIdentifier:@"FirstView"]];
+    	[initialViewController addObject:[self.storyboard instantiateViewControllerWithIdentifier:@"SecondView"]];
+    	
+    	self.viewController = initialViewController;
+}
+	```
+	
+3. Push an instance of `YourViewsController` into a navigation controller.
 
 ## Requirements
 Works with:
@@ -42,7 +55,7 @@ Works with:
 * iOS 7 SDK
 * ARC (You can turn it on and off on a per file basis)
 
-May also work with previous Xcode and iOS SDK versions. But it will at least need a system capable of Autolayout (and I think it will look awful on iOS 6 ;)...)
+May also work with previous Xcode and iOS SDK versions.
 
 ## License (MIT License)
 Copyright (c) 2013 Roland Moers
