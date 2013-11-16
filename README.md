@@ -5,64 +5,33 @@ This is an iOS control for guiding users through a process step-by-step
 
 ## Screenshots
 ### Portrait
-![Portrait](http://cooperrs.github.io/RMStepsController/Images/Screen1.png)
+![Portrait](http://cooperrs.github.io/RMMultipleViewsController/Images/Screen1.png)
 
 ### Landscape
-![Landscape](http://cooperrs.github.io/RMStepsController/Images/Screen2.png)
-
-### Navigation Controller
-![Navigation Controller](http://cooperrs.github.io/RMStepsController/Images/Screen3.png)
+![Landscape](http://cooperrs.github.io/RMMultipleViewsController/Images/Screen2.png)
 
 ##Installation
 ###Manual
 1. Check out the project
-2. Add all files in `RMStepsController` folder to Xcode
+2. Add all files in `RMMultipleViewsController` folder to Xcode
 
 ##Usage
 ###Basic
-1. Create a subclass of `RMStepsController` in your project.
+1. Create a subclass of `RMMultipleViewsController` in your project.
 	
 	```objc
-	#import "RMStepsController.h"
+	#import "RMMultipleViewsController.h"
 	
-	@interface YourStepsController : RMStepsController
+	@interface YourViewsController : RMMultipleViewsController
 	@end
 	```
 	
 	```objc
-	#import "YourStepsController.h"
+	#import "YourViewsController.h"
 	
-	@implementation YourStepsController
+	@implementation YourViewsController
 	@end
 	```
-	
-2. Implement `-(NSArray *)stepViewControllers` and return the view controllers of your steps.
-	
-	```objc
-	- (NSArray *)stepViewControllers {
-   		UIViewController *firstStep = [self.storyboard instantiateViewControllerWithIdentifier:@"SomeStep"];
-	    firstStep.step.title = @"First";
- 		
-    	UIViewController *secondStep = [self.storyboard instantiateViewControllerWithIdentifier:@"SomeStep2"];
-    	secondStep.step.title = @"Second";
-    	
-    	return @[firstStep, secondStep];
-	}
-	```
-	
-3. Implement `-(void)finishedAllSteps` and `-(void)canceled`
-	
-	```objc
-	- (void)finishedAllSteps {
-    	[self dismissViewControllerAnimated:YES completion:nil];
-	}
-
-	- (void)canceled {
-    	[self dismissViewControllerAnimated:YES completion:nil];
-	}
-	```
-	
-4. Open `YourStepsController` by presenting it modally or pushing it in a navigation controller.
 
 ## Requirements
 Works with:
