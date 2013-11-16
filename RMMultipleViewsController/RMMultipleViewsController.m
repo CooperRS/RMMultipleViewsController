@@ -3,13 +3,58 @@
 //  RMMultipleViewsController-Demo
 //
 //  Created by Roland Moers on 29.08.13.
-//  Copyright (c) 2013 Roland Moers. All rights reserved.
+//  Copyright (c) 2013 Roland Moers
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 #import "RMMultipleViewsController.h"
 
+#pragma mark - Helper Categories
+
+#import <objc/runtime.h>
+
+static char const * const multipleViewsControllerKey = "multipleViewsControllerKey";
+
+@implementation UIViewController (RMMultipleViewsController)
+
+@dynamic multipleViewsController;
+
+#pragma mark - Properties
+- (RMMultipleViewsController *)multipleViewsController {
+    return objc_getAssociatedObject(self, multipleViewsControllerKey);
+}
+
+- (void)setMultipleViewsController:(RMMultipleViewsController *)multipleViewsController {
+    objc_setAssociatedObject(self, multipleViewsControllerKey, multipleViewsController, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+#pragma mark - Helper
+- (void)adaptToEdgeInsets:(UIEdgeInsets)newInsets {
+    
+}
+
+@end
+
 #import <QuartzCore/QuartzCore.h>
 
+#pragma mark - Main Implementation
 @interface RMMultipleViewsController ()
 
 @property (nonatomic, strong) NSMutableArray *mutableViewController;
@@ -57,7 +102,7 @@
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     
-    for(UIViewController<RMViewController> *aViewController in self.viewController) {
+    for(UIViewController *aViewController in self.viewController) {
         [self updateContentInsetsForViewController:aViewController];
     }
 }
@@ -84,7 +129,7 @@
 }
 
 #pragma mark - Helper
-- (void)updateContentInsetsForViewController:(UIViewController<RMViewController> *)aViewController {
+- (void)updateContentInsetsForViewController:(UIViewController *)aViewController {
     if([aViewController respondsToSelector:@selector(adaptToEdgeInsets:)]) {
         UIEdgeInsets insets = UIEdgeInsetsZero;
         insets.top += 20;
@@ -107,7 +152,7 @@
     }
 }
 
-- (void)showViewControllerWithoutAnimation:(UIViewController<RMViewController> *)aViewController {
+- (void)showViewControllerWithoutAnimation:(UIViewController *)aViewController {
     if(self.currentViewController) {
         [self.currentViewController viewWillDisappear:NO];
         [self.currentViewController willMoveToParentViewController:nil];
@@ -133,7 +178,7 @@
     [aViewController viewDidAppear:NO];
 }
 
-- (void)showViewControllerWithFlipAnimation:(UIViewController<RMViewController> *)aViewController {
+- (void)showViewControllerWithFlipAnimation:(UIViewController *)aViewController {
     NSInteger oldIndex = self.currentViewController ? [self.mutableViewController indexOfObject:self.currentViewController] : NSNotFound;
     NSInteger newIndex = [self.mutableViewController indexOfObject:aViewController];
     
@@ -168,7 +213,7 @@
     }];
 }
 
-- (void)showViewControllerWithSlideInAnimation:(UIViewController<RMViewController> *)aViewController {
+- (void)showViewControllerWithSlideInAnimation:(UIViewController *)aViewController {
     NSInteger oldIndex = self.currentViewController ? [self.mutableViewController indexOfObject:self.currentViewController] : NSNotFound;
     NSInteger newIndex = [self.mutableViewController indexOfObject:aViewController];
     BOOL slideFromLeft = oldIndex >= newIndex;
@@ -216,7 +261,7 @@
     }];
 }
 
-- (void)showViewController:(UIViewController<RMViewController> *)aViewController animated:(BOOL)animated {
+- (void)showViewController:(UIViewController *)aViewController animated:(BOOL)animated {
     if(!aViewController) {
         [NSException raise:@"RMInvalidCurrentViewController" format:@"-[RMMultipleViewsController %@] has been called with nil as view controller parameter. This is not possible!", NSStringFromSelector(_cmd)];
     } else if([self.mutableViewController indexOfObject:aViewController] == NSNotFound) {
@@ -286,10 +331,8 @@
         for(id aViewController in newMutableViewController) {
             if(![aViewController isKindOfClass:[UIViewController class]]) {
                 [NSException raise:@"RMInvalidViewControllerException" format:@"Tried to set invalid objects as view controllers of RMMultipleViewsController. Object at index %lu is of Class %@ although it should be of Class UIViewController.", (unsigned long)[newMutableViewController indexOfObject:aViewController], NSStringFromClass([aViewController class])];
-            } else if(![aViewController conformsToProtocol:@protocol(RMViewController)]) {
-                [NSException raise:@"RMInvalidViewControllerException" format:@"Tried to set invalid objects as view controllers of RMMultipleViewsController. View controller at index %lu does not implement the protocol RMViewController.", (unsigned long)[newMutableViewController indexOfObject:aViewController]];
             } else {
-                UIViewController<RMViewController> *validViewController = (UIViewController<RMViewController> *)aViewController;
+                UIViewController *validViewController = (UIViewController *)aViewController;
                 validViewController.multipleViewsController = self;
                 
                 if(validViewController.title)
@@ -335,7 +378,7 @@
         NSMutableArray *items = [NSMutableArray array];
         
         if(_mutableViewController) {
-            for(UIViewController<RMViewController> *aViewController in _mutableViewController) {
+            for(UIViewController *aViewController in _mutableViewController) {
                 if(aViewController.title)
                     [items addObject:aViewController.title];
                 else
