@@ -1,7 +1,7 @@
-RMStepsController
+RMMultipleViewsController
 =============================
 
-This is an iOS control for guiding users through a process step-by-step
+This is an iOS control for showing multiple view controller in one view controller and selecting one with a segmented control.
 
 ## Screenshots
 ### Portrait
