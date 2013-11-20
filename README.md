@@ -15,6 +15,12 @@ This is an iOS control for showing multiple view controller in one view controll
 1. Check out the project
 2. Add all files in `RMMultipleViewsController` folder to Xcode
 
+###CocoaPods
+```ruby
+platform :ios, '7.0'
+pod "RMMultipleViewsController", "~> 0.9"
+```
+
 ##Usage
 ###Basic
 1. Create a subclass of `RMMultipleViewsController` in your project.
