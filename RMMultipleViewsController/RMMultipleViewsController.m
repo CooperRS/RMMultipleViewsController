@@ -217,17 +217,10 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
     NSInteger oldIndex = self.currentViewController ? [self.mutableViewController indexOfObject:self.currentViewController] : NSNotFound;
     NSInteger newIndex = [self.mutableViewController indexOfObject:aViewController];
     BOOL slideFromLeft = oldIndex >= newIndex;
+    BOOL animationsRunning = [self.contentPlaceholderView.layer.animationKeys count] > 0 ? YES : NO;
     
     [self.currentViewController viewWillDisappear:YES];
     [self.currentViewController willMoveToParentViewController:nil];
-    
-    CGFloat x = 0;
-    if(slideFromLeft)
-        x = -self.currentViewController.view.frame.size.width;
-    else
-        x = self.view.frame.size.width;
-    
-    aViewController.view.frame = CGRectMake(x, 0, self.currentViewController.view.frame.size.width, self.currentViewController.view.frame.size.height);
     
     [aViewController viewWillAppear:YES];
     [aViewController willMoveToParentViewController:self];
@@ -237,6 +230,14 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
     
     [aViewController didMoveToParentViewController:self];
     
+    CGFloat x = 0;
+    if(slideFromLeft)
+        x = -self.currentViewController.view.frame.size.width;
+    else
+        x = self.view.frame.size.width;
+    
+    aViewController.view.frame = CGRectMake(x, 0, self.currentViewController.view.frame.size.width, self.currentViewController.view.frame.size.height);
+    
     CGFloat oldX = 0;
     if(slideFromLeft) {
         oldX = self.view.frame.size.width;
@@ -245,7 +246,7 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
     }
     
     __block UIViewController *oldViewController = self.currentViewController;
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+    [UIView animateWithDuration:0.3 delay:0 options:(animationsRunning ? UIViewAnimationOptionBeginFromCurrentState : 0) animations:^{
         self.currentViewController.view.frame = CGRectMake(oldX, 0, self.currentViewController.view.frame.size.width, self.currentViewController.view.frame.size.height);
         aViewController.view.frame = CGRectMake(0, 0, aViewController.view.frame.size.width, aViewController.view.frame.size.height);
     } completion:^(BOOL finished) {
@@ -303,11 +304,7 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
         };
         
         if(self.currentViewController && [aViewController isViewLoaded] && animated) {
-            [UIView animateWithDuration:0 animations:^{
-                aViewController.view.frame = CGRectMake(0, 0, blockself.view.frame.size.width, blockself.view.frame.size.height);
-            } completion:^(BOOL finished) {
-                switchViewController();
-            }];
+            switchViewController();
         } else {
             aViewController.view.frame = CGRectMake(0, 0, blockself.view.frame.size.width, blockself.view.frame.size.height);
             switchViewController();
