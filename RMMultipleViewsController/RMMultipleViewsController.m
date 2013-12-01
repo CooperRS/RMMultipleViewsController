@@ -202,26 +202,20 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
 
 - (void)showViewControllerWithoutAnimation:(UIViewController *)aViewController {
     if(self.currentViewController) {
-        [self.currentViewController viewWillDisappear:NO];
         [self.currentViewController willMoveToParentViewController:nil];
         
         [self.currentViewController removeFromParentViewController];
         [self.currentViewController.view removeFromSuperview];
         
         [self.currentViewController didMoveToParentViewController:nil];
-        [self.currentViewController viewDidDisappear:NO];
     }
     
     aViewController.view.frame = [self frameForViewController:aViewController];
     
-    [aViewController viewWillAppear:NO];
     [aViewController willMoveToParentViewController:self];
-    
     [self.contentPlaceholderView addSubview:aViewController.view];
     [self addChildViewController:aViewController];
-    
     [aViewController didMoveToParentViewController:self];
-    [aViewController viewDidAppear:NO];
 }
 
 - (void)showViewControllerWithFlipAnimation:(UIViewController *)aViewController {
@@ -236,10 +230,7 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
     
     aViewController.view.frame = [self frameForViewController:aViewController];
     
-    [self.currentViewController viewWillDisappear:YES];
     [self.currentViewController willMoveToParentViewController:nil];
-    
-    [aViewController viewWillAppear:YES];
     [aViewController willMoveToParentViewController:self];
     
     [self.contentPlaceholderView addSubview:aViewController.view];
@@ -251,10 +242,7 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
         if(finished)
             [oldViewController.view removeFromSuperview];
         
-        [oldViewController viewDidDisappear:YES];
         [oldViewController didMoveToParentViewController:nil];
-        
-        [self.currentViewController viewDidAppear:YES];
         [self.currentViewController didMoveToParentViewController:self];
     }];
 }
@@ -265,10 +253,7 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
     BOOL slideFromLeft = oldIndex >= newIndex;
     BOOL animationsRunning = [self.contentPlaceholderView.layer.animationKeys count] > 0 ? YES : NO;
     
-    [self.currentViewController viewWillDisappear:YES];
     [self.currentViewController willMoveToParentViewController:nil];
-    
-    [aViewController viewWillAppear:YES];
     [aViewController willMoveToParentViewController:self];
     
     [self.contentPlaceholderView addSubview:aViewController.view];
@@ -304,9 +289,6 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
         }
         
         [oldViewController didMoveToParentViewController:nil];
-        [oldViewController viewDidDisappear:YES];
-        
-        [self.currentViewController viewDidAppear:YES];
     }];
 }
 
