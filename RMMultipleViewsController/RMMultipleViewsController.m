@@ -102,9 +102,8 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     
-    for(UIViewController *aViewController in self.viewController) {
-        [self updateContentInsetsForViewController:aViewController];
-    }
+    self.currentViewController.view.frame = [self frameForViewController:self.currentViewController];
+    [self updateContentInsetsForViewController:self.currentViewController];
 }
 
 #pragma mark - Persistency
@@ -191,6 +190,10 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
                     insets.bottom += self.navigationController.tabBarController.tabBar.frame.size.height;
                 }
             }
+        }
+        
+        if([self extendViewControllerBelowBottomBars:aViewController]) {
+            insets.bottom += self.bottomLayoutGuide.length;
         }
         
         [aViewController adaptToEdgeInsets:insets];
