@@ -129,23 +129,68 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
 }
 
 #pragma mark - Helper
-- (void)updateContentInsetsForViewController:(UIViewController *)aViewController {
-    if([aViewController respondsToSelector:@selector(adaptToEdgeInsets:)]) {
-        UIEdgeInsets insets = UIEdgeInsetsZero;
-        insets.top += 20;
+- (BOOL)extendViewControllerBelowNavigationBar:(UIViewController *)aViewController {
+    return (aViewController.extendedLayoutIncludesOpaqueBars || (aViewController.edgesForExtendedLayout & UIRectEdgeTop));
+}
+
+- (BOOL)extendViewControllerBelowBottomBars:(UIViewController *)aViewController {
+    return (aViewController.extendedLayoutIncludesOpaqueBars || (aViewController.edgesForExtendedLayout & UIRectEdgeBottom));
+}
+
+- (CGRect)frameForViewController:(UIViewController *)aViewController {
+    CGFloat top = 0;
+    if(![self extendViewControllerBelowNavigationBar:aViewController]) {
+        top += 20;
         
         if(self.navigationController) {
             if(!self.navigationController.navigationBarHidden) {
-                insets.top += self.navigationController.navigationBar.frame.size.height;
+                top += self.navigationController.navigationBar.frame.size.height;
+            }
+        }
+    }
+    
+    CGFloat bottom = 0;
+    if(![self extendViewControllerBelowBottomBars:aViewController]) {
+        if(self.navigationController) {
+            if((self.useToolbarItemsOfCurrentViewController && [aViewController.toolbarItems count] > 0) ||
+               (!self.useToolbarItemsOfCurrentViewController && [self.toolbarItems count] > 0)) {
+                bottom += self.navigationController.toolbar.frame.size.height;
             }
             
-            if(!self.navigationController.toolbarHidden) {
-                insets.bottom += self.navigationController.toolbar.frame.size.height;
+            if(self.navigationController.tabBarController) {
+                bottom += self.navigationController.tabBarController.tabBar.frame.size.height;
+            }
+        }
+    }
+    
+    return CGRectMake(0, top, self.contentPlaceholderView.frame.size.width, self.contentPlaceholderView.frame.size.height-top-bottom);
+}
+
+- (void)updateContentInsetsForViewController:(UIViewController *)aViewController {
+    if([self extendViewControllerBelowNavigationBar:aViewController] || [self extendViewControllerBelowBottomBars:aViewController]) {
+        UIEdgeInsets insets = UIEdgeInsetsZero;
+        
+        if([self extendViewControllerBelowNavigationBar:aViewController]) {
+            insets.top += 20;
+            
+            if(self.navigationController) {
+                if(!self.navigationController.navigationBarHidden) {
+                    insets.top += self.navigationController.navigationBar.frame.size.height;
+                }
             }
         }
         
-        if(self.tabBarController) {
-            insets.bottom += self.navigationController.tabBarController.tabBar.frame.size.height;
+        if([self extendViewControllerBelowBottomBars:aViewController]) {
+            if(self.navigationController) {
+                if((self.useToolbarItemsOfCurrentViewController && [aViewController.toolbarItems count] > 0) ||
+                   (!self.useToolbarItemsOfCurrentViewController && [self.toolbarItems count] > 0)) {
+                    insets.bottom += self.navigationController.toolbar.frame.size.height;
+                }
+                
+                if(self.navigationController.tabBarController) {
+                    insets.bottom += self.navigationController.tabBarController.tabBar.frame.size.height;
+                }
+            }
         }
         
         [aViewController adaptToEdgeInsets:insets];
@@ -162,11 +207,9 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
         
         [self.currentViewController didMoveToParentViewController:nil];
         [self.currentViewController viewDidDisappear:NO];
-        
-        aViewController.view.frame = self.currentViewController.view.frame;
-    } else {
-        aViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     }
+    
+    aViewController.view.frame = [self frameForViewController:aViewController];
     
     [aViewController viewWillAppear:NO];
     [aViewController willMoveToParentViewController:self];
@@ -188,7 +231,7 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
     else
         transition = UIViewAnimationOptionTransitionFlipFromLeft;
     
-    aViewController.view.frame = self.currentViewController.view.frame;
+    aViewController.view.frame = [self frameForViewController:aViewController];
     
     [self.currentViewController viewWillDisappear:YES];
     [self.currentViewController willMoveToParentViewController:nil];
@@ -230,25 +273,27 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
     
     [aViewController didMoveToParentViewController:self];
     
-    CGFloat x = 0;
+    __block CGRect aViewControllerRect = [self frameForViewController:aViewController];
     if(slideFromLeft)
-        x = -self.currentViewController.view.frame.size.width;
+        aViewControllerRect.origin.x = -self.currentViewController.view.frame.size.width;
     else
-        x = self.view.frame.size.width;
+        aViewControllerRect.origin.x = self.view.frame.size.width;
     
-    aViewController.view.frame = CGRectMake(x, 0, self.currentViewController.view.frame.size.width, self.currentViewController.view.frame.size.height);
+    aViewController.view.frame = aViewControllerRect;
     
-    CGFloat oldX = 0;
+    __block CGRect currentViwControllerRect = [self frameForViewController:self.currentViewController];
     if(slideFromLeft) {
-        oldX = self.view.frame.size.width;
+        currentViwControllerRect.origin.x = self.view.frame.size.width;
     } else {
-        oldX = -self.currentViewController.view.frame.size.width;
+        currentViwControllerRect.origin.x = -self.currentViewController.view.frame.size.width;
     }
     
     __block UIViewController *oldViewController = self.currentViewController;
     [UIView animateWithDuration:0.3 delay:0 options:(animationsRunning ? UIViewAnimationOptionBeginFromCurrentState : 0) animations:^{
-        self.currentViewController.view.frame = CGRectMake(oldX, 0, self.currentViewController.view.frame.size.width, self.currentViewController.view.frame.size.height);
-        aViewController.view.frame = CGRectMake(0, 0, aViewController.view.frame.size.width, aViewController.view.frame.size.height);
+        self.currentViewController.view.frame = currentViwControllerRect;
+        
+        aViewControllerRect.origin.x = 0;
+        aViewController.view.frame = aViewControllerRect;
     } completion:^(BOOL finished) {
         [oldViewController removeFromParentViewController];
         if(finished) {
@@ -365,6 +410,7 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
     if(!_contentPlaceholderView) {
         self.contentPlaceholderView = [[UIView alloc] initWithFrame:CGRectZero];
         _contentPlaceholderView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        _contentPlaceholderView.backgroundColor = [UIColor whiteColor];
     }
     
     return _contentPlaceholderView;
