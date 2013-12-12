@@ -52,6 +52,19 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
 
 @end
 
+@interface UITableViewController (RMMultipleViewsController)
+@end
+
+@implementation UITableViewController (RMMultipleViewsController)
+
+#pragma mark - Helper
+- (void)adaptToEdgeInsets:(UIEdgeInsets)newInsets {
+    self.tableView.contentInset = newInsets;
+    self.tableView.scrollIndicatorInsets = newInsets;
+}
+
+@end
+
 #import <QuartzCore/QuartzCore.h>
 
 #pragma mark - Main Implementation
@@ -190,10 +203,6 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
                     insets.bottom += self.navigationController.tabBarController.tabBar.frame.size.height;
                 }
             }
-        }
-        
-        if([self extendViewControllerBelowBottomBars:aViewController]) {
-            insets.bottom += self.bottomLayoutGuide.length;
         }
         
         [aViewController adaptToEdgeInsets:insets];
