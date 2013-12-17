@@ -5,6 +5,12 @@
 //  Created by Roland Moers on 29.08.13.
 //  Copyright (c) 2013 Roland Moers
 //
+//  Fade animation and arrow navigation strategy are based on:
+//      AAMultiViewController.h
+//		AAMultiViewController.m
+//  Created by Richard Aurbach on 11/21/2013.
+//  Copyright (c) 2013 Aurbach & Associates, Inc.
+//
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
 //  in the Software without restriction, including without limitation the rights
@@ -53,8 +59,18 @@
 typedef enum {
     RMMultipleViewsControllerAnimationSlideIn,
     RMMultipleViewsControllerAnimationFlip,
+    RMMultipleViewsControllerAnimationFade,
     RMMultipleViewsControllerAnimationNone
 } RMMultipleViewsControllerAnimation;
+
+/**
+ *	This is an enumeration of the supported automated navigation strategies
+ */
+typedef enum {
+	RMMultipleViewsControllerNavigationStrategySegmentedControl,
+	RMMultipleViewsControllerNavigationStrategyArrows,
+	RMMultipleViewsControllerNavigationStrategyNone
+} RMMultipleViewsControllerNavigationStrategy;
 
 /**
  *  `RMMultipleViewsController` is an iOS control for showing multiple view controller in one view controller and selecting one with a segmented control. Every `RMMultipleViewsController` should be pushed into a `UINavigationController`.
@@ -81,6 +97,11 @@ typedef enum {
  *  Used to control whether or not the `RMMultipleViewsController` will also show the toolbar items of the currently shown child view controller.
  */
 @property (nonatomic, assign) BOOL useToolbarItemsOfCurrentViewController;
+
+/**
+ *	Used to control whether AAMultiViewController will auto-create, auto-display, and use a segmented control for navigation.
+ */
+@property (nonatomic, assign) RMMultipleViewsControllerNavigationStrategy navigationStrategy;
 
 /**
  *  Used to initialize a new `RMMultipleViewsController`.

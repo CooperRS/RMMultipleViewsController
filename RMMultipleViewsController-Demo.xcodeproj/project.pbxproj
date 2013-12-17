@@ -12,6 +12,7 @@
 		CA30C0E6183D37EE0037EE3A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE24BFE17CF483800C89C3E /* UIKit.framework */; };
 		CA30C0EC183D37EE0037EE3A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CA30C0EA183D37EE0037EE3A /* InfoPlist.strings */; };
 		CA30C0F6183D38040037EE3A /* RMRMMultipleViewsControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CA30C0F5183D38040037EE3A /* RMRMMultipleViewsControllerTests.m */; };
+		CA90BD8C185C85F4009D31D2 /* RMMultipleViewsController.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA90BD8B185C85F4009D31D2 /* RMMultipleViewsController.xcassets */; };
 		CAE24BFB17CF483800C89C3E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE24BFA17CF483800C89C3E /* Foundation.framework */; };
 		CAE24BFD17CF483800C89C3E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE24BFC17CF483800C89C3E /* CoreGraphics.framework */; };
 		CAE24BFF17CF483800C89C3E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE24BFE17CF483800C89C3E /* UIKit.framework */; };
@@ -41,6 +42,7 @@
 		CA30C0EB183D37EE0037EE3A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CA30C0EF183D37EE0037EE3A /* RMMultipleViewsController-Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RMMultipleViewsController-Tests-Prefix.pch"; sourceTree = "<group>"; };
 		CA30C0F5183D38040037EE3A /* RMRMMultipleViewsControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMRMMultipleViewsControllerTests.m; sourceTree = "<group>"; };
+		CA90BD8B185C85F4009D31D2 /* RMMultipleViewsController.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = RMMultipleViewsController.xcassets; sourceTree = "<group>"; };
 		CAE24BF717CF483800C89C3E /* RMMultipleViewsController-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RMMultipleViewsController-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAE24BFA17CF483800C89C3E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CAE24BFC17CF483800C89C3E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -170,6 +172,7 @@
 			children = (
 				CAE24C2A17CF494E00C89C3E /* RMMultipleViewsController.h */,
 				CAE24C2B17CF494E00C89C3E /* RMMultipleViewsController.m */,
+				CA90BD8B185C85F4009D31D2 /* RMMultipleViewsController.xcassets */,
 			);
 			path = RMMultipleViewsController;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA90BD8C185C85F4009D31D2 /* RMMultipleViewsController.xcassets in Resources */,
 				CAE24C2E17CF4F3700C89C3E /* MainStoryboard.storyboard in Resources */,
 				CAE69F161837E4DA004F85B0 /* Images.xcassets in Resources */,
 			);

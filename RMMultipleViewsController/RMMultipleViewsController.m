@@ -5,6 +5,12 @@
 //  Created by Roland Moers on 29.08.13.
 //  Copyright (c) 2013 Roland Moers
 //
+//  Fade animation and arrow navigation strategy are based on:
+//      AAMultiViewController.h
+//		AAMultiViewController.m
+//  Created by Richard Aurbach on 11/21/2013.
+//  Copyright (c) 2013 Aurbach & Associates, Inc.
+//  
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
 //  in the Software without restriction, including without limitation the rights
@@ -68,7 +74,7 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
 #import <QuartzCore/QuartzCore.h>
 
 #pragma mark - Main Implementation
-@interface RMMultipleViewsController ()
+@interface RMMultipleViewsController () <UIActionSheetDelegate>
 
 @property (nonatomic, strong) NSMutableArray *mutableViewController;
 @property (nonatomic, strong) UIViewController *currentViewController;
@@ -107,8 +113,80 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
     
     [self showViewController:[self.mutableViewController objectAtIndex:0] animated:NO];
     
-    self.segmentedControl.selectedSegmentIndex = 0;
+    if (self.navigationStrategy == RMMultipleViewsControllerNavigationStrategySegmentedControl) {
+		self.segmentedControl.selectedSegmentIndex = 0;
+	}
+    
     self.navigationItem.titleView = self.segmentedControl;
+}
+
+#pragma mark - Navigation via Next/Previous Buttons
+- (void) createNextPreviousButtons
+{
+	if (self.navigationStrategy == RMMultipleViewsControllerNavigationStrategyArrows) {
+		if (self.navigationItem != nil) {
+			UIImage * imagePrev = [UIImage imageNamed:@"LeftReveal.png"];
+			CGFloat widthPrev = imagePrev.size.width;
+			UIImage * imageNext = [UIImage imageNamed:@"RightReveal.png"];
+			CGFloat widthNext = imageNext.size.width;
+			UISegmentedControl * segmentedControl = [[UISegmentedControl alloc] initWithItems:@[imagePrev, imageNext]];
+			[segmentedControl setWidth:widthPrev forSegmentAtIndex:0];
+			[segmentedControl setWidth:widthNext forSegmentAtIndex:1];
+			[segmentedControl addTarget:self action:@selector(nextPrev:) forControlEvents:UIControlEventValueChanged];
+			segmentedControl.momentary = YES;
+            
+			self.navigationItem.titleView = segmentedControl;
+		}
+		[self xableNextPreviousButtons];
+	}
+}
+
+- (void) xableNextPreviousButtons
+{
+	if (self.navigationStrategy == RMMultipleViewsControllerNavigationStrategyArrows) {
+		UISegmentedControl * segmentedControl = (UISegmentedControl*) self.navigationItem.rightBarButtonItem.customView;
+		[segmentedControl setEnabled:[self existsPreviousSubController] forSegmentAtIndex:0];
+		[segmentedControl setEnabled:[self existsNextSubController] forSegmentAtIndex:1];
+	}
+}
+
+- (IBAction) nextPrev:(id)sender
+{
+	if (self.navigationStrategy == RMMultipleViewsControllerNavigationStrategyArrows) {
+		NSUInteger index = [(UISegmentedControl*)sender selectedSegmentIndex];
+		if (index == 0) {
+			[self showPreviousViewControllerAnimated:YES];
+		} else {
+			[self showNextViewControllerAnimated:YES];
+		}
+	}
+}
+
+- (void)showNextViewControllerAnimated:(BOOL)animated {
+	[self showViewController:[self.mutableViewController objectAtIndex:[self currentSubControllerIndex]+1] animated:animated];
+}
+
+- (void)showPreviousViewControllerAnimated:(BOOL)animated
+{
+	[self showViewController:[self.mutableViewController objectAtIndex:[self currentSubControllerIndex]-1] animated:animated];
+}
+
+- (NSUInteger) currentSubControllerIndex
+{
+	return [self.mutableViewController indexOfObject:self.currentViewController];
+}
+
+- (BOOL) existsPreviousSubController
+{
+	NSUInteger currentIndex = [self currentSubControllerIndex];
+	return (currentIndex != 0 && currentIndex != NSNotFound);
+}
+
+- (BOOL) existsNextSubController
+{
+	NSUInteger currentIndex = [self currentSubControllerIndex];
+	NSUInteger ct = [self.mutableViewController count];
+	return (currentIndex != (ct-1) && currentIndex != NSNotFound);
 }
 
 #pragma mark - Orientation
@@ -301,6 +379,44 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
     }];
 }
 
+- (void)showViewControllerWithFadeAnimation:(UIViewController*)aViewController {
+    NSInteger oldIndex = self.currentViewController ? [self.mutableViewController indexOfObject:self.currentViewController] : NSNotFound;
+    NSInteger newIndex = [self.mutableViewController indexOfObject:aViewController];
+    BOOL animationsRunning = [self.contentPlaceholderView.layer.animationKeys count] > 0 ? YES : NO;
+    
+    UIViewAnimationOptions transition = UIViewAnimationOptionTransitionFlipFromRight;
+    if(oldIndex < newIndex) {
+        transition = UIViewAnimationOptionTransitionFlipFromRight;
+    } else {
+        transition = UIViewAnimationOptionTransitionFlipFromLeft;
+	}
+    
+	aViewController.view.frame = [self frameForViewController:aViewController];
+    
+    [self.currentViewController viewWillDisappear:YES];
+    [self.currentViewController willMoveToParentViewController:nil];
+    
+    [aViewController viewWillAppear:YES];
+    [aViewController willMoveToParentViewController:self];
+    
+    [self.contentPlaceholderView addSubview:aViewController.view];
+	[self.view addSubview:aViewController.view];
+    [self addChildViewController:aViewController];
+    
+    UIViewController *oldViewController = self.currentViewController;
+    [UIView transitionFromView:self.currentViewController.view toView:aViewController.view duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve | (animationsRunning ? UIViewAnimationOptionBeginFromCurrentState : 0) completion:^(BOOL finished) {
+        [oldViewController removeFromParentViewController];
+		if(finished)
+			[oldViewController.view removeFromSuperview];
+		
+        [oldViewController viewDidDisappear:YES];
+		[oldViewController didMoveToParentViewController:nil];
+		
+		[self.currentViewController viewDidAppear:YES];
+		[self.currentViewController didMoveToParentViewController:self];
+    }];
+}
+
 - (void)showViewController:(UIViewController *)aViewController animated:(BOOL)animated {
     if(!aViewController) {
         [NSException raise:@"RMInvalidCurrentViewController" format:@"-[RMMultipleViewsController %@] has been called with nil as view controller parameter. This is not possible!", NSStringFromSelector(_cmd)];
@@ -320,12 +436,27 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
                 [blockself showViewControllerWithFlipAnimation:aViewController];
             } else if(blockself.animationStyle == RMMultipleViewsControllerAnimationSlideIn) {
                 [blockself showViewControllerWithSlideInAnimation:aViewController];
+            } else if (blockself.animationStyle == RMMultipleViewsControllerAnimationFade) {
+				[blockself showViewControllerWithFadeAnimation:aViewController];
             } else {
                 [blockself showViewControllerWithoutAnimation:aViewController];
             }
             
             blockself.currentViewController = aViewController;
-            blockself.segmentedControl.selectedSegmentIndex = [blockself.mutableViewController indexOfObject:aViewController];
+            
+            if(self.navigationStrategy == RMMultipleViewsControllerNavigationStrategySegmentedControl)
+                blockself.segmentedControl.selectedSegmentIndex = [blockself.mutableViewController indexOfObject:aViewController];
+            else if(self.navigationStrategy == RMMultipleViewsControllerNavigationStrategyArrows) {
+                NSString *newTitle = self.currentViewController.title;
+                if(!newTitle)
+                    newTitle = @"Unknown";
+                
+                [self.segmentedControl setTitle:newTitle forSegmentAtIndex:1];
+                
+                NSInteger currentIndex = [self.mutableViewController indexOfObject:self.currentViewController];
+                [self.segmentedControl setEnabled:(currentIndex > 0) forSegmentAtIndex:0];
+                [self.segmentedControl setEnabled:(currentIndex < [self.mutableViewController count]-1) forSegmentAtIndex:2];
+            }
             
             if(blockself.useNavigationBarButtonItemsOfCurrentViewController) {
                 [blockself.navigationItem setLeftBarButtonItems:aViewController.navigationItem.leftBarButtonItems animated:animated];
@@ -381,14 +512,10 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
         _mutableViewController = newMutableViewController;
         
         if(_segmentedControl) {
-            [_segmentedControl removeAllSegments];
-            for(NSString *aTitle in [items reverseObjectEnumerator]) {
-                [_segmentedControl insertSegmentWithTitle:aTitle atIndex:0 animated:NO];
-            }
+            self.navigationItem.titleView = nil;
+            self.segmentedControl = nil;
+            self.navigationItem.titleView = self.segmentedControl;
         }
-        
-        if(_segmentedControl.frame.size.width < 130)
-            _segmentedControl.frame = CGRectMake(_segmentedControl.frame.origin.x, _segmentedControl.frame.origin.y, 130, _segmentedControl.frame.size.height);
     }
 }
 
@@ -425,8 +552,22 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
             [items addObjectsFromArray:@[@"Test1", @"Test2", @"Test3"]];
         }
         
-        self.segmentedControl = [[UISegmentedControl alloc] initWithItems:items];
-        [_segmentedControl addTarget:self action:@selector(segmentedControlTapped:) forControlEvents:UIControlEventValueChanged];
+        if(self.navigationStrategy == RMMultipleViewsControllerNavigationStrategySegmentedControl) {
+            self.segmentedControl = [[UISegmentedControl alloc] initWithItems:items];
+            [_segmentedControl addTarget:self action:@selector(segmentedControlTapped:) forControlEvents:UIControlEventValueChanged];
+        } else if(self.navigationStrategy == RMMultipleViewsControllerNavigationStrategyArrows) {
+            UIImage *imagePrev = [UIImage imageNamed:@"LeftReveal.png"];
+            UIImage *imageNext = [UIImage imageNamed:@"RightReveal.png"];
+            
+			CGFloat widthPrev = imagePrev.size.width;
+			CGFloat widthNext = imageNext.size.width;
+			
+            self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[imagePrev, [items objectAtIndex:[self.mutableViewController indexOfObject:self.currentViewController]], imageNext]];
+			[_segmentedControl setWidth:widthPrev forSegmentAtIndex:0];
+			[_segmentedControl setWidth:widthNext forSegmentAtIndex:2];
+			[_segmentedControl addTarget:self action:@selector(segmentedControlTapped:) forControlEvents:UIControlEventValueChanged];
+			_segmentedControl.momentary = YES;
+        }
         
         if(_segmentedControl.frame.size.width < 130)
             _segmentedControl.frame = CGRectMake(_segmentedControl.frame.origin.x, _segmentedControl.frame.origin.y, 130, _segmentedControl.frame.size.height);
@@ -438,8 +579,33 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
 #pragma mark - Actions
 - (void)segmentedControlTapped:(UISegmentedControl *)aSegmentedControl {
     if(aSegmentedControl == self.segmentedControl) {
-        [self showViewController:[self.mutableViewController objectAtIndex:aSegmentedControl.selectedSegmentIndex] animated:YES];
+        if(self.navigationStrategy == RMMultipleViewsControllerNavigationStrategySegmentedControl) {
+            [self showViewController:[self.mutableViewController objectAtIndex:aSegmentedControl.selectedSegmentIndex] animated:YES];
+        } else if(self.navigationStrategy == RMMultipleViewsControllerNavigationStrategyArrows) {
+            NSInteger currentIndex = [self.mutableViewController indexOfObject:self.currentViewController];
+            
+            if(aSegmentedControl.selectedSegmentIndex == 0) {
+                [self showViewController:[self.mutableViewController objectAtIndex:currentIndex-1] animated:YES];
+            } else if(aSegmentedControl.selectedSegmentIndex == 1) {
+                UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
+                
+                for(UIViewController *aViewController in _mutableViewController) {
+                    [sheet addButtonWithTitle:(aViewController.title ? aViewController.title : @"Unknown")];
+                }
+                
+                [sheet showInView:self.view];
+            } else if(aSegmentedControl.selectedSegmentIndex == 2) {
+                [self showViewController:[self.mutableViewController objectAtIndex:currentIndex+1] animated:YES];
+            }
+        }
     }
+}
+
+#pragma mark - UIActionSheet Delegates
+- (void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex {
+    UIViewController *nextVC = [self.mutableViewController objectAtIndex:buttonIndex];
+    if(nextVC != self.currentViewController)
+        [self showViewController:nextVC animated:YES];
 }
 
 @end
