@@ -71,6 +71,19 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
 
 @end
 
+@interface UICollectionViewController (RMMultipleViewsController)
+@end
+
+@implementation UICollectionViewController (RMMultipleViewsController)
+
+#pragma mark - Helper
+- (void)adaptToEdgeInsets:(UIEdgeInsets)newInsets {
+    self.collectionView.contentInset = newInsets;
+    self.collectionView.scrollIndicatorInsets = newInsets;
+}
+
+@end
+
 #import <QuartzCore/QuartzCore.h>
 
 #pragma mark - Main Implementation
