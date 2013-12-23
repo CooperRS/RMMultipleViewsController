@@ -113,11 +113,13 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
     
     [self showViewController:[self.mutableViewController objectAtIndex:0] animated:NO];
     
-    if (self.navigationStrategy == RMMultipleViewsControllerNavigationStrategySegmentedControl) {
-		self.segmentedControl.selectedSegmentIndex = 0;
-	}
-    
-    self.navigationItem.titleView = self.segmentedControl;
+    if(self.navigationStrategy != RMMultipleViewsControllerNavigationStrategyNone) {
+        if (self.navigationStrategy == RMMultipleViewsControllerNavigationStrategySegmentedControl) {
+            self.segmentedControl.selectedSegmentIndex = 0;
+        }
+        
+        self.navigationItem.titleView = self.segmentedControl;
+    }
 }
 
 #pragma mark - Orientation
@@ -469,6 +471,9 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
 }
 
 - (UISegmentedControl *)segmentedControl {
+    if(self.navigationStrategy == RMMultipleViewsControllerNavigationStrategyNone)
+        return nil;
+    
     if(!_segmentedControl) {
         NSMutableArray *items = [NSMutableArray array];
         
