@@ -63,6 +63,9 @@ Works with:
 
 May also work with previous Xcode and iOS SDK versions.
 
+## Credits
+* Richard Aurbach (Fade animation and additional navigation strategies)
+
 ## License (MIT License)
 Copyright (c) 2013 Roland Moers
 
