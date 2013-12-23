@@ -48,7 +48,7 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
 }
 
 - (void)setMultipleViewsController:(RMMultipleViewsController *)multipleViewsController {
-    objc_setAssociatedObject(self, multipleViewsControllerKey, multipleViewsController, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, multipleViewsControllerKey, multipleViewsController, OBJC_ASSOCIATION_ASSIGN);
 }
 
 #pragma mark - Helper
