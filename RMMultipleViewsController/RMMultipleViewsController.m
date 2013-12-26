@@ -135,6 +135,13 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.currentViewController.view.frame = [self frameForViewController:self.currentViewController];
+    [self updateContentInsetsForViewController:self.currentViewController];
+}
+
 #pragma mark - Orientation
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
