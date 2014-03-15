@@ -333,16 +333,7 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
 }
 
 - (void)showViewControllerWithFadeAnimation:(UIViewController*)aViewController {
-    NSInteger oldIndex = self.currentViewController ? [self.mutableViewController indexOfObject:self.currentViewController] : NSNotFound;
-    NSInteger newIndex = [self.mutableViewController indexOfObject:aViewController];
     BOOL animationsRunning = [self.contentPlaceholderView.layer.animationKeys count] > 0 ? YES : NO;
-    
-    UIViewAnimationOptions transition = UIViewAnimationOptionTransitionFlipFromRight;
-    if(oldIndex < newIndex) {
-        transition = UIViewAnimationOptionTransitionFlipFromRight;
-    } else {
-        transition = UIViewAnimationOptionTransitionFlipFromLeft;
-	}
     
 	aViewController.view.frame = [self frameForViewController:aViewController];
     
