@@ -54,6 +54,9 @@ pod "RMMultipleViewsController", "~> 1.0.0"
 	
 3. Push an instance of `YourViewsController` into a navigation controller.
 
+## Documentation
+There is an additional documentation available provided by the CocoaPods team. Take a look at [cocoadocs.org](http://cocoadocs.org/docsets/RMMultipleViewsController/).
+
 ## Requirements
 Works with:
 
