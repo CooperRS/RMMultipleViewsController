@@ -18,7 +18,7 @@ This is an iOS control for showing multiple view controller in one view controll
 ###CocoaPods
 ```ruby
 platform :ios, '7.0'
-pod "RMMultipleViewsController", "~> 1.0.0"
+pod "RMMultipleViewsController", "~> 1.0.1"
 ```
 
 ##Usage
