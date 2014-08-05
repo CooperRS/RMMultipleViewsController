@@ -160,6 +160,7 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     
     self.currentViewController.view.frame = [self frameForViewController:self.currentViewController];
+    [self updateContentInsetsForViewController:self.currentViewController];
 }
 
 #pragma mark - Persistency
