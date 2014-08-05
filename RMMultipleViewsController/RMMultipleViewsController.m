@@ -95,6 +95,8 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
 @property (nonatomic, strong) UIView *contentPlaceholderView;
 @property (nonatomic, strong) UISegmentedControl *segmentedControl;
 
+@property (nonatomic, assign) BOOL updatingContentInsets;
+
 @end
 
 @implementation RMMultipleViewsController
@@ -138,8 +140,19 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    self.updatingContentInsets = YES;
     self.currentViewController.view.frame = [self frameForViewController:self.currentViewController];
-    [self updateContentInsetsForViewController:self.currentViewController];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    self.updatingContentInsets = NO;
+}
+
+- (void)viewDidLayoutSubviews {
+    if(self.updatingContentInsets)
+        [self updateContentInsetsForViewController:self.currentViewController];
 }
 
 #pragma mark - Orientation
@@ -147,7 +160,6 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     
     self.currentViewController.view.frame = [self frameForViewController:self.currentViewController];
-    [self updateContentInsetsForViewController:self.currentViewController];
 }
 
 #pragma mark - Persistency
