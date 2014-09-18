@@ -227,7 +227,9 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
         UIEdgeInsets insets = UIEdgeInsetsZero;
         
         if([self extendViewControllerBelowNavigationBar:aViewController]) {
-            insets.top += 20;
+            if(![UIApplication sharedApplication].statusBarHidden) {
+                insets.top += 20;
+            }
             
             if(self.navigationController) {
                 if(!self.navigationController.navigationBarHidden) {
