@@ -332,15 +332,18 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
     }
     
     __block UIViewController *oldViewController = self.currentViewController;
+    __weak RMMultipleViewsController *blockself = self;
     [UIView animateWithDuration:0.3 delay:0 options:(animationsRunning ? UIViewAnimationOptionBeginFromCurrentState : 0) animations:^{
         self.currentViewController.view.frame = currentViwControllerRect;
         
         aViewControllerRect.origin.x = 0;
         aViewController.view.frame = aViewControllerRect;
     } completion:^(BOOL finished) {
-        [oldViewController removeFromParentViewController];
-        if(finished) {
-            [oldViewController.view removeFromSuperview];
+        if(oldViewController != blockself.currentViewController) {
+            [oldViewController removeFromParentViewController];
+            if(finished) {
+                [oldViewController.view removeFromSuperview];
+            }
         }
         
         [oldViewController didMoveToParentViewController:nil];
