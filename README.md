@@ -1,4 +1,4 @@
-RMMultipleViewsController
+RMMultipleViewsController ![Build Status](https://travis-ci.org/CooperRS/RMMultipleViewsController.svg?branch=master)
 =============================
 
 This is an iOS control for showing multiple view controller in one view controller and selecting one with a segmented control.
