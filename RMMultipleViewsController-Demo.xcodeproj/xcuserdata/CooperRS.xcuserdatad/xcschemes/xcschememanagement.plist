@@ -9,10 +9,20 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>RMMultipleViewsController.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>CA30C0E2183D37EE0037EE3A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CA60ECC91DF42F010045E448</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -7,18 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CA30C0E4183D37EE0037EE3A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE24C1317CF483900C89C3E /* XCTest.framework */; };
-		CA30C0E5183D37EE0037EE3A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE24BFA17CF483800C89C3E /* Foundation.framework */; };
-		CA30C0E6183D37EE0037EE3A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE24BFE17CF483800C89C3E /* UIKit.framework */; };
-		CA30C0EC183D37EE0037EE3A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CA30C0EA183D37EE0037EE3A /* InfoPlist.strings */; };
-		CA30C0F6183D38040037EE3A /* RMRMMultipleViewsControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CA30C0F5183D38040037EE3A /* RMRMMultipleViewsControllerTests.m */; };
-		CA90BD8C185C85F4009D31D2 /* RMMultipleViewsController.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA90BD8B185C85F4009D31D2 /* RMMultipleViewsController.xcassets */; };
+		CA60ECCE1DF42F010045E448 /* RMMultipleViewsController.h in Headers */ = {isa = PBXBuildFile; fileRef = CA60ECCC1DF42F010045E448 /* RMMultipleViewsController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CA60ECD11DF42F010045E448 /* RMMultipleViewsController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA60ECCA1DF42F010045E448 /* RMMultipleViewsController.framework */; };
+		CA60ECD21DF42F010045E448 /* RMMultipleViewsController.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CA60ECCA1DF42F010045E448 /* RMMultipleViewsController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CA60ECD71DF42F2A0045E448 /* RMMultipleViewsController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAE24C2B17CF494E00C89C3E /* RMMultipleViewsController.m */; };
+		CA60ECD81DF42F520045E448 /* RMMultipleViewsController.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA90BD8B185C85F4009D31D2 /* RMMultipleViewsController.xcassets */; };
+		CA60ECDA1DF42F850045E448 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA60ECD91DF42F850045E448 /* Launch Screen.storyboard */; };
 		CAE24BFB17CF483800C89C3E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE24BFA17CF483800C89C3E /* Foundation.framework */; };
 		CAE24BFD17CF483800C89C3E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE24BFC17CF483800C89C3E /* CoreGraphics.framework */; };
 		CAE24BFF17CF483800C89C3E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE24BFE17CF483800C89C3E /* UIKit.framework */; };
 		CAE24C0717CF483800C89C3E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CAE24C0617CF483800C89C3E /* main.m */; };
 		CAE24C0B17CF483900C89C3E /* RMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CAE24C0A17CF483900C89C3E /* RMAppDelegate.m */; };
-		CAE24C2C17CF494E00C89C3E /* RMMultipleViewsController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAE24C2B17CF494E00C89C3E /* RMMultipleViewsController.m */; };
 		CAE24C2E17CF4F3700C89C3E /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAE24C2D17CF4F3700C89C3E /* MainStoryboard.storyboard */; };
 		CAE24C3117CF523E00C89C3E /* RMDemoMultipleViewsController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAE24C3017CF523E00C89C3E /* RMDemoMultipleViewsController.m */; };
 		CAE69F161837E4DA004F85B0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAE69F151837E4DA004F85B0 /* Images.xcassets */; };
@@ -27,21 +26,34 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		CA30C0F0183D37EE0037EE3A /* PBXContainerItemProxy */ = {
+		CA60ECCF1DF42F010045E448 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CAE24BEF17CF483800C89C3E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = CAE24BF617CF483800C89C3E;
-			remoteInfo = "RMMultipleViewsController-Demo";
+			remoteGlobalIDString = CA60ECC91DF42F010045E448;
+			remoteInfo = RMMultipleViewsController;
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		CA60ECD61DF42F010045E448 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				CA60ECD21DF42F010045E448 /* RMMultipleViewsController.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		CA30C0E3183D37EE0037EE3A /* RMMultipleViewsController-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RMMultipleViewsController-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CA30C0E9183D37EE0037EE3A /* RMMultipleViewsController-Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RMMultipleViewsController-Tests-Info.plist"; sourceTree = "<group>"; };
-		CA30C0EB183D37EE0037EE3A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		CA30C0EF183D37EE0037EE3A /* RMMultipleViewsController-Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RMMultipleViewsController-Tests-Prefix.pch"; sourceTree = "<group>"; };
-		CA30C0F5183D38040037EE3A /* RMRMMultipleViewsControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMRMMultipleViewsControllerTests.m; sourceTree = "<group>"; };
+		CA60ECCA1DF42F010045E448 /* RMMultipleViewsController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RMMultipleViewsController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA60ECCC1DF42F010045E448 /* RMMultipleViewsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RMMultipleViewsController.h; sourceTree = "<group>"; };
+		CA60ECCD1DF42F010045E448 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA60ECD91DF42F850045E448 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		CA90BD8B185C85F4009D31D2 /* RMMultipleViewsController.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = RMMultipleViewsController.xcassets; sourceTree = "<group>"; };
 		CAE24BF717CF483800C89C3E /* RMMultipleViewsController-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RMMultipleViewsController-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAE24BFA17CF483800C89C3E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -66,13 +78,10 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		CA30C0E0183D37EE0037EE3A /* Frameworks */ = {
+		CA60ECC61DF42F010045E448 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA30C0E4183D37EE0037EE3A /* XCTest.framework in Frameworks */,
-				CA30C0E6183D37EE0037EE3A /* UIKit.framework in Frameworks */,
-				CA30C0E5183D37EE0037EE3A /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA60ECD11DF42F010045E448 /* RMMultipleViewsController.framework in Frameworks */,
 				CAE24BFD17CF483800C89C3E /* CoreGraphics.framework in Frameworks */,
 				CAE24BFF17CF483800C89C3E /* UIKit.framework in Frameworks */,
 				CAE24BFB17CF483800C89C3E /* Foundation.framework in Frameworks */,
@@ -89,23 +99,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		CA30C0E7183D37EE0037EE3A /* RMMultipleViewsController-Tests */ = {
+		CA60ECCB1DF42F010045E448 /* RMMultipleViewsController */ = {
 			isa = PBXGroup;
 			children = (
-				CA30C0E8183D37EE0037EE3A /* Supporting Files */,
-				CA30C0F5183D38040037EE3A /* RMRMMultipleViewsControllerTests.m */,
+				CA60ECCC1DF42F010045E448 /* RMMultipleViewsController.h */,
+				CA60ECCD1DF42F010045E448 /* Info.plist */,
 			);
-			path = "RMMultipleViewsController-Tests";
-			sourceTree = "<group>";
-		};
-		CA30C0E8183D37EE0037EE3A /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				CA30C0E9183D37EE0037EE3A /* RMMultipleViewsController-Tests-Info.plist */,
-				CA30C0EA183D37EE0037EE3A /* InfoPlist.strings */,
-				CA30C0EF183D37EE0037EE3A /* RMMultipleViewsController-Tests-Prefix.pch */,
-			);
-			name = "Supporting Files";
+			path = RMMultipleViewsController;
 			sourceTree = "<group>";
 		};
 		CAE24BEE17CF483800C89C3E = {
@@ -113,7 +113,7 @@
 			children = (
 				CAE24C2917CF486800C89C3E /* RMMultipleViewsController */,
 				CAE24C0017CF483800C89C3E /* RMMultipleViewsController-Demo */,
-				CA30C0E7183D37EE0037EE3A /* RMMultipleViewsController-Tests */,
+				CA60ECCB1DF42F010045E448 /* RMMultipleViewsController */,
 				CAE24BF917CF483800C89C3E /* Frameworks */,
 				CAE24BF817CF483800C89C3E /* Products */,
 			);
@@ -123,7 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				CAE24BF717CF483800C89C3E /* RMMultipleViewsController-Demo.app */,
-				CA30C0E3183D37EE0037EE3A /* RMMultipleViewsController-Tests.xctest */,
+				CA60ECCA1DF42F010045E448 /* RMMultipleViewsController.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -151,6 +151,7 @@
 				CAF9B44A17CF53C500B033B5 /* RMDemoSecondViewController.h */,
 				CAF9B44B17CF53C500B033B5 /* RMDemoSecondViewController.m */,
 				CAE24C2D17CF4F3700C89C3E /* MainStoryboard.storyboard */,
+				CA60ECD91DF42F850045E448 /* Launch Screen.storyboard */,
 				CAE69F151837E4DA004F85B0 /* Images.xcassets */,
 				CAE24C0117CF483800C89C3E /* Supporting Files */,
 			);
@@ -179,24 +180,35 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		CA60ECC71DF42F010045E448 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA60ECCE1DF42F010045E448 /* RMMultipleViewsController.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		CA30C0E2183D37EE0037EE3A /* RMMultipleViewsController-Tests */ = {
+		CA60ECC91DF42F010045E448 /* RMMultipleViewsController */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CA30C0F4183D37EE0037EE3A /* Build configuration list for PBXNativeTarget "RMMultipleViewsController-Tests" */;
+			buildConfigurationList = CA60ECD31DF42F010045E448 /* Build configuration list for PBXNativeTarget "RMMultipleViewsController" */;
 			buildPhases = (
-				CA30C0DF183D37EE0037EE3A /* Sources */,
-				CA30C0E0183D37EE0037EE3A /* Frameworks */,
-				CA30C0E1183D37EE0037EE3A /* Resources */,
+				CA60ECC51DF42F010045E448 /* Sources */,
+				CA60ECC61DF42F010045E448 /* Frameworks */,
+				CA60ECC71DF42F010045E448 /* Headers */,
+				CA60ECC81DF42F010045E448 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				CA30C0F1183D37EE0037EE3A /* PBXTargetDependency */,
 			);
-			name = "RMMultipleViewsController-Tests";
-			productName = "RMMultipleViewsController-Tests";
-			productReference = CA30C0E3183D37EE0037EE3A /* RMMultipleViewsController-Tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
+			name = RMMultipleViewsController;
+			productName = RMMultipleViewsController;
+			productReference = CA60ECCA1DF42F010045E448 /* RMMultipleViewsController.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 		CAE24BF617CF483800C89C3E /* RMMultipleViewsController-Demo */ = {
 			isa = PBXNativeTarget;
@@ -205,10 +217,12 @@
 				CAE24BF317CF483800C89C3E /* Sources */,
 				CAE24BF417CF483800C89C3E /* Frameworks */,
 				CAE24BF517CF483800C89C3E /* Resources */,
+				CA60ECD61DF42F010045E448 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				CA60ECD01DF42F010045E448 /* PBXTargetDependency */,
 			);
 			name = "RMMultipleViewsController-Demo";
 			productName = "RMMultipleViewsController-Demo";
@@ -222,11 +236,12 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = RM;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Roland Moers";
 				TargetAttributes = {
-					CA30C0E2183D37EE0037EE3A = {
-						TestTargetID = CAE24BF617CF483800C89C3E;
+					CA60ECC91DF42F010045E448 = {
+						CreatedOnToolsVersion = 8.1;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -243,17 +258,17 @@
 			projectRoot = "";
 			targets = (
 				CAE24BF617CF483800C89C3E /* RMMultipleViewsController-Demo */,
-				CA30C0E2183D37EE0037EE3A /* RMMultipleViewsController-Tests */,
+				CA60ECC91DF42F010045E448 /* RMMultipleViewsController */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		CA30C0E1183D37EE0037EE3A /* Resources */ = {
+		CA60ECC81DF42F010045E448 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA30C0EC183D37EE0037EE3A /* InfoPlist.strings in Resources */,
+				CA60ECD81DF42F520045E448 /* RMMultipleViewsController.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,7 +276,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA90BD8C185C85F4009D31D2 /* RMMultipleViewsController.xcassets in Resources */,
+				CA60ECDA1DF42F850045E448 /* Launch Screen.storyboard in Resources */,
 				CAE24C2E17CF4F3700C89C3E /* MainStoryboard.storyboard in Resources */,
 				CAE69F161837E4DA004F85B0 /* Images.xcassets in Resources */,
 			);
@@ -270,11 +285,11 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		CA30C0DF183D37EE0037EE3A /* Sources */ = {
+		CA60ECC51DF42F010045E448 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA30C0F6183D38040037EE3A /* RMRMMultipleViewsControllerTests.m in Sources */,
+				CA60ECD71DF42F2A0045E448 /* RMMultipleViewsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,7 +299,6 @@
 			files = (
 				CAE24C3117CF523E00C89C3E /* RMDemoMultipleViewsController.m in Sources */,
 				CAF9B44917CF53B800B033B5 /* RMDemoFirstViewController.m in Sources */,
-				CAE24C2C17CF494E00C89C3E /* RMMultipleViewsController.m in Sources */,
 				CAE24C0717CF483800C89C3E /* main.m in Sources */,
 				CAF9B44C17CF53C500B033B5 /* RMDemoSecondViewController.m in Sources */,
 				CAE24C0B17CF483900C89C3E /* RMAppDelegate.m in Sources */,
@@ -294,68 +308,64 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		CA30C0F1183D37EE0037EE3A /* PBXTargetDependency */ = {
+		CA60ECD01DF42F010045E448 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CAE24BF617CF483800C89C3E /* RMMultipleViewsController-Demo */;
-			targetProxy = CA30C0F0183D37EE0037EE3A /* PBXContainerItemProxy */;
+			target = CA60ECC91DF42F010045E448 /* RMMultipleViewsController */;
+			targetProxy = CA60ECCF1DF42F010045E448 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		CA30C0EA183D37EE0037EE3A /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CA30C0EB183D37EE0037EE3A /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
-		CA30C0F2183D37EE0037EE3A /* Debug */ = {
+		CA60ECD41DF42F010045E448 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RMMultipleViewsController-Demo.app/RMMultipleViewsController-Demo";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RMMultipleViewsController-Tests/RMMultipleViewsController-Tests-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				INFOPLIST_FILE = "RMMultipleViewsController-Tests/RMMultipleViewsController-Tests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = RMMultipleViewsController/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = de.cooperrs.RMMultipleViewsController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		CA30C0F3183D37EE0037EE3A /* Release */ = {
+		CA60ECD51DF42F010045E448 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RMMultipleViewsController-Demo.app/RMMultipleViewsController-Demo";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RMMultipleViewsController-Tests/RMMultipleViewsController-Tests-Prefix.pch";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				INFOPLIST_FILE = "RMMultipleViewsController-Tests/RMMultipleViewsController-Tests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = RMMultipleViewsController/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = de.cooperrs.RMMultipleViewsController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
@@ -372,25 +382,32 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -410,19 +427,25 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -433,10 +456,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RMMultipleViewsController-Demo/RMMultipleViewsController-Demo-Prefix.pch";
 				INFOPLIST_FILE = "RMMultipleViewsController-Demo/RMMultipleViewsController-Demo-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.cooperrs.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -446,10 +470,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RMMultipleViewsController-Demo/RMMultipleViewsController-Demo-Prefix.pch";
 				INFOPLIST_FILE = "RMMultipleViewsController-Demo/RMMultipleViewsController-Demo-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.cooperrs.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -458,14 +483,13 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CA30C0F4183D37EE0037EE3A /* Build configuration list for PBXNativeTarget "RMMultipleViewsController-Tests" */ = {
+		CA60ECD31DF42F010045E448 /* Build configuration list for PBXNativeTarget "RMMultipleViewsController" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CA30C0F2183D37EE0037EE3A /* Debug */,
-				CA30C0F3183D37EE0037EE3A /* Release */,
+				CA60ECD41DF42F010045E448 /* Debug */,
+				CA60ECD51DF42F010045E448 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 		CAE24BF217CF483800C89C3E /* Build configuration list for PBXProject "RMMultipleViewsController-Demo" */ = {
 			isa = XCConfigurationList;
