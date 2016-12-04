@@ -10,5 +10,4 @@ env:
     - NAME='iPhone 6' OS=10.0
 
 script:
-    - xcodebuild test -project RMMultipleViewsController-Demo.xcodeproj -scheme RMMultipleViewsController-Demo -sdk iphonesimulator -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
-
+    - xcodebuild build -project RMMultipleViewsController-Demo.xcodeproj -scheme RMMultipleViewsController-Demo -sdk iphonesimulator -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
