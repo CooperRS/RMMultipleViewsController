@@ -10,19 +10,19 @@ This is an iOS control for showing multiple view controller in one view controll
 ### Landscape
 ![Landscape](http://cooperrs.github.io/RMMultipleViewsController/Images/Screen2.png)
 
-##Installation
-###Manual
+## Installation
+### Manual
 1. Check out the project
 2. Add all files in `RMMultipleViewsController` folder to Xcode
 
-###CocoaPods
+### CocoaPods
 ```ruby
 platform :ios, '7.0'
 pod "RMMultipleViewsController", "~> 1.0.1"
 ```
 
-##Usage
-###Basic
+## Usage
+### Basic
 1. Create a subclass of `RMMultipleViewsController` in your project.
 	
 	```objc
