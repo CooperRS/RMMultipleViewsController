@@ -17,7 +17,7 @@ This is an iOS control for showing multiple view controller in one view controll
 
 ### CocoaPods
 ```ruby
-platform :ios, '7.0'
+platform :ios, '8.0'
 pod "RMMultipleViewsController", "~> 1.0.1"
 ```
 
@@ -58,19 +58,18 @@ pod "RMMultipleViewsController", "~> 1.0.1"
 There is an additional documentation available provided by the CocoaPods team. Take a look at [cocoadocs.org](http://cocoadocs.org/docsets/RMMultipleViewsController/).
 
 ## Requirements
-Works with:
 
-* Xcode 5
-* iOS 7 SDK
-* ARC (You can turn it on and off on a per file basis)
-
-May also work with previous Xcode and iOS SDK versions.
+| Compile Time  | Runtime       |
+| :------------ | :------------ |
+| Xcode 9       | iOS 8         |
+| iOS 11 SDK    |               |
+| ARC           |               |
 
 ## Credits
 * Richard Aurbach (Fade animation and additional navigation strategies)
 
 ## License (MIT License)
-Copyright (c) 2013 Roland Moers
+Copyright (c) 2013-2017 Roland Moers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
