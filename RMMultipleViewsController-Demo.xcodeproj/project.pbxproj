@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA509E611F6B265100C21BE8 /* RMDemoThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA509E601F6B265100C21BE8 /* RMDemoThirdViewController.m */; };
 		CA60ECCE1DF42F010045E448 /* RMMultipleViewsController.h in Headers */ = {isa = PBXBuildFile; fileRef = CA60ECCC1DF42F010045E448 /* RMMultipleViewsController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA60ECD11DF42F010045E448 /* RMMultipleViewsController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA60ECCA1DF42F010045E448 /* RMMultipleViewsController.framework */; };
 		CA60ECD21DF42F010045E448 /* RMMultipleViewsController.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CA60ECCA1DF42F010045E448 /* RMMultipleViewsController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -50,6 +51,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CA509E5F1F6B265100C21BE8 /* RMDemoThirdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RMDemoThirdViewController.h; sourceTree = "<group>"; };
+		CA509E601F6B265100C21BE8 /* RMDemoThirdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RMDemoThirdViewController.m; sourceTree = "<group>"; };
 		CA60ECCA1DF42F010045E448 /* RMMultipleViewsController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RMMultipleViewsController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA60ECCC1DF42F010045E448 /* RMMultipleViewsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RMMultipleViewsController.h; sourceTree = "<group>"; };
 		CA60ECCD1DF42F010045E448 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -150,6 +153,8 @@
 				CAF9B44817CF53B800B033B5 /* RMDemoFirstViewController.m */,
 				CAF9B44A17CF53C500B033B5 /* RMDemoSecondViewController.h */,
 				CAF9B44B17CF53C500B033B5 /* RMDemoSecondViewController.m */,
+				CA509E5F1F6B265100C21BE8 /* RMDemoThirdViewController.h */,
+				CA509E601F6B265100C21BE8 /* RMDemoThirdViewController.m */,
 				CAE24C2D17CF4F3700C89C3E /* MainStoryboard.storyboard */,
 				CA60ECD91DF42F850045E448 /* Launch Screen.storyboard */,
 				CAE69F151837E4DA004F85B0 /* Images.xcassets */,
@@ -297,6 +302,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA509E611F6B265100C21BE8 /* RMDemoThirdViewController.m in Sources */,
 				CAE24C3117CF523E00C89C3E /* RMDemoMultipleViewsController.m in Sources */,
 				CAF9B44917CF53B800B033B5 /* RMDemoFirstViewController.m in Sources */,
 				CAE24C0717CF483800C89C3E /* main.m in Sources */,
