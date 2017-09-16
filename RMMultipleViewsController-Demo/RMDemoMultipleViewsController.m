@@ -41,6 +41,7 @@
     NSMutableArray *initialViewController = [NSMutableArray array];
     [initialViewController addObject:[self.storyboard instantiateViewControllerWithIdentifier:@"FirstView"]];
     [initialViewController addObject:[self.storyboard instantiateViewControllerWithIdentifier:@"SecondView"]];
+    [initialViewController addObject:[self.storyboard instantiateViewControllerWithIdentifier:@"ThirdView"]];
     
     self.viewController = initialViewController;
 }

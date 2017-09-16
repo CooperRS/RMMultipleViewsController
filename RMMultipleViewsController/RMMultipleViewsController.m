@@ -65,6 +65,12 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
 
 #pragma mark - Helper
 - (void)adaptToEdgeInsets:(UIEdgeInsets)newInsets {
+    if(@available(iOS 11, *)) {
+        if(self.tableView.contentInsetAdjustmentBehavior != UIScrollViewContentInsetAdjustmentNever) {
+            return;
+        }
+    }
+    
     self.tableView.contentInset = newInsets;
     self.tableView.scrollIndicatorInsets = newInsets;
 }
@@ -78,6 +84,12 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
 
 #pragma mark - Helper
 - (void)adaptToEdgeInsets:(UIEdgeInsets)newInsets {
+    if(@available(iOS 11, *)) {
+        if(self.collectionView.contentInsetAdjustmentBehavior != UIScrollViewContentInsetAdjustmentNever) {
+            return;
+        }
+    }
+    
     self.collectionView.contentInset = newInsets;
     self.collectionView.scrollIndicatorInsets = newInsets;
 }
@@ -228,7 +240,7 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
         
         if([self extendViewControllerBelowNavigationBar:aViewController]) {
             if(![UIApplication sharedApplication].statusBarHidden) {
-                insets.top += 20;
+                insets.top += [UIApplication sharedApplication].statusBarFrame.size.height;
             }
             
             if(self.navigationController) {
