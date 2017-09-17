@@ -9,6 +9,7 @@ RMActionController adheres to [Semantic Versioning](http://semver.org/).
 
 * Add iOS 11 support
 * Add Carthage support
+* Xcode 9 is now required for building
 
 ## [1.0.2](https://github.com/CooperRS/RMMultipleViewsController/releases/tag/1.0.2)
 
