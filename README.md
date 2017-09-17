@@ -1,4 +1,4 @@
-RMMultipleViewsController ![Build Status](https://travis-ci.org/CooperRS/RMMultipleViewsController.svg?branch=master)
+RMMultipleViewsController ![Build Status](https://travis-ci.org/CooperRS/RMMultipleViewsController.svg?branch=master) [![Pod Version](https://img.shields.io/cocoapods/v/RMMultipleViewsController.svg)](https://cocoapods.org/pods/RMMultipleViewsController) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 =============================
 
 This is an iOS control for showing multiple view controller in one view controller and selecting one with a segmented control.
