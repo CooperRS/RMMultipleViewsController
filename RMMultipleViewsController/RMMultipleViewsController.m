@@ -269,20 +269,14 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
 
 - (void)showViewControllerWithoutAnimation:(UIViewController *)aViewController {
     if(self.currentViewController) {
-        [self.currentViewController willMoveToParentViewController:nil];
-        
-        [self.currentViewController removeFromParentViewController];
         [self.currentViewController.view removeFromSuperview];
-        
-        [self.currentViewController didMoveToParentViewController:nil];
     }
     
+    [self.contentPlaceholderView addSubview:aViewController.view];
     aViewController.view.frame = [self frameForViewController:aViewController];
     
-    [aViewController willMoveToParentViewController:self];
-    [self.contentPlaceholderView addSubview:aViewController.view];
+    // We call addChildViewController: a second time to make sure an UIRefreshControl of the child is properly added to the navigation bar.
     [self addChildViewController:aViewController];
-    [aViewController didMoveToParentViewController:self];
 }
 
 - (void)showViewControllerWithFlipAnimation:(UIViewController *)aViewController {
@@ -295,22 +289,17 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
     else
         transition = UIViewAnimationOptionTransitionFlipFromLeft;
     
-    aViewController.view.frame = [self frameForViewController:aViewController];
-    
-    [self.currentViewController willMoveToParentViewController:nil];
-    [aViewController willMoveToParentViewController:self];
-    
     [self.contentPlaceholderView addSubview:aViewController.view];
-    [self addChildViewController:aViewController];
+    aViewController.view.frame = [self frameForViewController:aViewController];
     
     UIViewController *oldViewController = self.currentViewController;
     [UIView transitionFromView:self.currentViewController.view toView:aViewController.view duration:0.5 options:transition | UIViewAnimationOptionBeginFromCurrentState completion:^(BOOL finished) {
-        [oldViewController removeFromParentViewController];
-        if(finished)
+        if(finished) {
             [oldViewController.view removeFromSuperview];
+        }
         
-        [oldViewController didMoveToParentViewController:nil];
-        [self.currentViewController didMoveToParentViewController:self];
+        // We call addChildViewController: a second time to make sure an UIRefreshControl of the child is properly added to the navigation bar.
+        [self addChildViewController:aViewController];
     }];
 }
 
@@ -320,13 +309,7 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
     BOOL slideFromLeft = oldIndex >= newIndex;
     BOOL animationsRunning = [self.contentPlaceholderView.layer.animationKeys count] > 0 ? YES : NO;
     
-    [self.currentViewController willMoveToParentViewController:nil];
-    [aViewController willMoveToParentViewController:self];
-    
     [self.contentPlaceholderView addSubview:aViewController.view];
-    [self addChildViewController:aViewController];
-    
-    [aViewController didMoveToParentViewController:self];
     
     __block CGRect aViewControllerRect = [self frameForViewController:aViewController];
     if(slideFromLeft)
@@ -352,42 +335,29 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
         aViewController.view.frame = aViewControllerRect;
     } completion:^(BOOL finished) {
         if(oldViewController != blockself.currentViewController) {
-            [oldViewController removeFromParentViewController];
             if(finished) {
                 [oldViewController.view removeFromSuperview];
+                
+                // We call addChildViewController: a second time to make sure an UIRefreshControl of the child is properly added to the navigation bar.
+                [self addChildViewController:aViewController];
             }
         }
-        
-        [oldViewController didMoveToParentViewController:nil];
     }];
 }
 
 - (void)showViewControllerWithFadeAnimation:(UIViewController*)aViewController {
     BOOL animationsRunning = [self.contentPlaceholderView.layer.animationKeys count] > 0 ? YES : NO;
     
-	aViewController.view.frame = [self frameForViewController:aViewController];
-    
-    [self.currentViewController viewWillDisappear:YES];
-    [self.currentViewController willMoveToParentViewController:nil];
-    
-    [aViewController viewWillAppear:YES];
-    [aViewController willMoveToParentViewController:self];
-    
     [self.contentPlaceholderView addSubview:aViewController.view];
-	[self.view addSubview:aViewController.view];
-    [self addChildViewController:aViewController];
     
     UIViewController *oldViewController = self.currentViewController;
     [UIView transitionFromView:self.currentViewController.view toView:aViewController.view duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve | (animationsRunning ? UIViewAnimationOptionBeginFromCurrentState : 0) completion:^(BOOL finished) {
-        [oldViewController removeFromParentViewController];
-		if(finished)
+        if(finished) {
 			[oldViewController.view removeFromSuperview];
-		
-        [oldViewController viewDidDisappear:YES];
-		[oldViewController didMoveToParentViewController:nil];
-		
-		[self.currentViewController viewDidAppear:YES];
-		[self.currentViewController didMoveToParentViewController:self];
+        }
+        
+        // We call addChildViewController: a second time to make sure an UIRefreshControl of the child is properly added to the navigation bar.
+        [self addChildViewController:aViewController];
     }];
 }
 
@@ -480,6 +450,10 @@ static char const * const multipleViewsControllerKey = "multipleViewsControllerK
                     [items addObject:validViewController.title];
                 else
                     [items addObject:@"Unknown"];
+                
+                [validViewController willMoveToParentViewController:nil];
+                [self addChildViewController:validViewController];
+                [validViewController didMoveToParentViewController:nil];
             }
         }
         
